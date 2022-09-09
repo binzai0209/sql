@@ -7,6 +7,16 @@ create table T_PRICE_ZRZ_0813 parallel 8 as
 select *
 from T_PRICE_ZRZ nologging;
 
+
+
+create table T_H_PRICE_JZ_0830 parallel 8 as
+select *
+from T_H_PRICE_JZ nologging;
+
+
+update T_H_PRICE_JZ
+set OLD_PRICE = PRICE;
+
 select *
 from T_PRICE_ZRZ;
 

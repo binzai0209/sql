@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/8ae818c8-4657-4a79-bbcc-8900868206e4/常用sql.sql" charset="GBK" />
     <file url="file://$PROJECT_DIR$/sql文件/常用sql.sql" charset="GBK" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>
