@@ -171,7 +171,7 @@ from (select a.bdcdyid,
                                                                                                 decode(a.JGSJ, null, '', to_char(a.JGSJ, 'yyyy')),
                                                                                                 to_char(b.JGRQ, 'yyyy')),
                                                                                          f.JCND), e.JCND), '暂无', '',
-                    '暂无竣工时间', '', '暂无信息', '', '在建', '','暂无','',
+                    '暂无竣工时间', '', '暂无信息', '', '在建', '', '暂无', '',
                     d.JCND)                           as  JCND,
              d.BUSS_ID                                    BUSINESS_ID,
              decode(g.NAME, '', '无', null, '无', g.NAME) BUSINESS_NAME
@@ -189,10 +189,11 @@ select distinct JCND
 from T_BASE_COMMUNITY;
 
 select JCND
-from T_BASE_COMMUNITY where JCND = ' 2022';
+from T_BASE_COMMUNITY
+where JCND = ' 2022';
 
 update T_BASE_COMMUNITY
-set JCND = replace(JCND,'年','');
+set JCND = replace(JCND, '年', '');
 
 select *
 from T_BASE_BUSINESS_ZONE;
@@ -201,3 +202,174 @@ select a.ID, a.COMMUNITY, a.ZL, b.ID, b.NAME
 from T_BASE_COMMUNITY a
          left join TX_BUSINESS_ZONE b on a.BUSS_ID = b.ID
 where BUSS_ID is not null;
+
+select *
+from T_BEV_TASK;
+
+select *
+from T_BEV_TASK_SCOPE
+where TASK_ID = '413690373778061231';
+
+select *
+from T_BEV_SCOPE_GROUP;
+
+SELECT *
+FROM T_BEV_SCOPE_GROUP a
+WHERE TASK_ID = '413690373778061231'
+START WITH a.ID = '413690373778061252'
+CONNECT BY PRIOR a.ID = a.PARENT_ID;
+
+select *
+from T_BEV_GROUP_STANDARD
+where GROUP_ID in (SELECT a.ID
+                   FROM T_BEV_SCOPE_GROUP a
+                   START WITH a.ID = '413690373778061249'
+                   CONNECT BY PRIOR a.ID = a.PARENT_ID);
+
+select *
+from T_BEV_SCOPE_GROUP
+where TASK_ID = '413690382367995549';
+--413697576438216345
+--413697576438216346
+--413697576438216347
+
+select *
+from T_BEV_SCOPE_GROUP_DATA
+where GROUP_ID in ('413697576438216345', '413697576438216346', '413697576438216347');
+
+
+select *
+from T_BEV_TASK;
+
+delete
+from T_BEV_TASK_SCOPE
+where id in (select SCOPE_ID
+             from T_BEV_SCOPE_GROUP_DATA
+             where GROUP_ID in (SELECT a.ID
+                                FROM T_BEV_SCOPE_GROUP a
+                                START WITH a.ID = :id
+                                CONNECT BY PRIOR a.ID = a.PARENT_ID));
+
+delete
+from T_BEV_SCOPE_GROUP_DATA
+where GROUP_ID in (SELECT a.ID
+                   FROM T_BEV_SCOPE_GROUP a
+                   START WITH a.ID = ?1
+                   CONNECT BY PRIOR a.ID = a.PARENT_ID);
+
+delete
+from T_BEV_SCOPE_GROUP
+where ID in (SELECT a.ID
+             FROM T_BEV_SCOPE_GROUP a
+             START WITH a.ID = :id
+             CONNECT BY PRIOR a.ID = a.PARENT_ID);
+
+select *
+from (select a.*, c.ID GROUP_ID, c.PARENT_ID, row_number() over ( partition by a.BDCDYID order by a.QXDM,a.ZL) r
+      from T_BEV_TASK_SCOPE a
+               left join T_BEV_SCOPE_GROUP_DATA b on a.ID = b.SCOPE_ID
+               left join T_BEV_SCOPE_GROUP c on c.id = b.GROUP_ID
+      where 1 = 1
+        and a.task_id = '413690382367995549'
+        and b.SCOPE_ID is not null
+        and GROUP_ID is not null
+      order by qxdm, zl)
+where r = 1
+
+select *
+from T_BEV_GROUP_STANDARD;
+
+delete
+from T_BEV_GROUP_STANDARD
+where GROUP_ID in (SELECT a.ID
+                   FROM T_BEV_SCOPE_GROUP a
+                   START WITH a.ID = ?1
+                   CONNECT BY PRIOR a.ID = a.PARENT_ID);
+
+select *
+from T_H_PRICE_JZ
+where zl like '%历城区世纪大道11977号中新锦绣天地东苑一区18号楼102%';
+
+select *
+from T_BASE_H_XZ
+where zl = '历城区世纪大道11977号中新锦绣天地东苑一区18号楼102';
+
+select *
+from T_BEV_TASK_SCOPE;
+
+select *
+from T_API_RECORD
+order by REQ_TIME desc;
+
+select QSC
+from T_BASE_H_XZ
+where ZL = '历下区经十路9777号1号楼1002';
+
+select *
+from T_BEV_TASK_SCOPE;
+
+select *
+from T_BEV_SCOPE_GROUP
+where TASK_ID = '413725910337468364'
+  and ID = '413725910337468392';
+
+select a.*, b.PRICE, b.PRICE * a.JZMJ price_total, b.EXPRESSION, c.GROUP_LABEL, c.GROUP_NAME
+from T_BEV_TASK_SCOPE a
+         left join T_BEV_RESULT_RECORD b on a.id = b.SCOPE_ID
+         left join T_BEV_SCOPE_GROUP c on a.TASK_ID = c.TASK_ID
+         left join T_BEV_SCOPE_GROUP_DATA d on d.GROUP_ID = c.ID and d.SCOPE_ID = a.ID
+where 1 = 1
+  and c.ID = '413725910337468392';
+
+
+select GROUP_ID, count(0)
+from T_BEV_SCOPE_GROUP_DATA
+where GROUP_ID in (select id
+                   from T_BEV_SCOPE_GROUP
+                   where TASK_ID = '413725910337468364')
+group by GROUP_ID;
+
+select *
+from T_BEV_SCOPE_GROUP_DATA
+where GROUP_ID = '413725910337468392';
+
+
+
+select a.*, b.PRICE, b.PRICE * a.JZMJ price_total, b.EXPRESSION, c.GROUP_LABEL, c.GROUP_NAME
+from T_BEV_TASK_SCOPE a
+         left join T_BEV_RESULT_RECORD b on a.id = b.SCOPE_ID
+         left join T_BEV_SCOPE_GROUP c on a.TASK_ID = c.TASK_ID
+         left join T_BEV_SCOPE_GROUP_DATA d on d.SCOPE_ID = a.ID and c.ID = d.GROUP_ID
+where 1 = 1
+  and a.TASK_ID = '413725910337468364'
+  and d.GROUP_ID = '413725910337468392'
+order by a.szc, a.zl;
+
+select *
+from T_BEV_SCOPE_GROUP;
+select a.*, b.PRICE, b.PRICE * a.JZMJ price_total, b.EXPRESSION, c.GROUP_LABEL, c.GROUP_NAME
+from T_BEV_TASK_SCOPE a
+         left join T_BEV_RESULT_RECORD b on a.id = b.SCOPE_ID
+         left join (select a.SCOPE_ID, a.GROUP_ID, b.GROUP_NAME, b.GROUP_LABEL
+                    from T_BEV_SCOPE_GROUP_DATA a
+                             left join T_BEV_SCOPE_GROUP b on a.GROUP_ID = b.ID) c on a.id = c.SCOPE_ID
+where 1 = 1
+  and a.TASK_ID = '413725910337468364' and c.GROUP_ID = '413725910337468392'
+order by a.szc, a.zl;
+
+select a.SCOPE_ID, b.GROUP_NAME, b.GROUP_LABEL
+from T_BEV_SCOPE_GROUP_DATA a
+         left join T_BEV_SCOPE_GROUP b on a.GROUP_ID = b.ID;
+
+select *
+from T_BEV_GROUP_STANDARD;
+
+
+
+
+
+
+
+
+
+

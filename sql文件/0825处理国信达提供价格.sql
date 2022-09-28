@@ -929,17 +929,26 @@ VALUES ('E772093120744E21E053AF5D14AC0B6E', '-12064181', '370103016000GB00148F00
 
 
 
-create table T_H_PRICE_JZ_0902 parallel 8 as
+create table T_H_PRICE_JZ_0909 parallel 8 as
 select *
 from T_H_PRICE_JZ nologging;
 
-create table T_PRICE_ZRZ_0901 parallel 8 as
+create table T_PRICE_ZRZ_0909 parallel 8 as
 select *
 from T_PRICE_ZRZ nologging;
 
 select BDCDYID, FWYT
 from T_PRICE_ZRZ
 group by BDCDYID, FWYT
+having count(0) > 1;
+
+select *
+from T_PRICE_ZRZ
+where BDCDYID = 'LWSXCQ_Z15908';
+
+select BDCDYID
+from T_H_PRICE_JZ
+group by BDCDYID
 having count(0) > 1;
 
 select *
@@ -975,12 +984,12 @@ select sys_guid(),
        '4',
        ZRZ_ZL,
        a.QXDM,
-       '0902新增国信达价格'
+       '0909新增国信达价格'
 from (select v.*, pz.price price_jz, pz.fwyt fwyt_jz, pz.data_source
       from v_community_gl_zrz_xq3_gxd v
                left join t_price_zrz pz on v.ZRZBDCDYID = pz.bdcdyid and v.fwyt = pz.fwyt
-         --where v.fwyt = '车位/车库'
-     ) a
+           --where v.fwyt = '车位/车库'
+      where v.BZ = '9.9日上午入库（四县+莱芜/钢城）') a
          left join T_PRICE_ZRZ b on a.ZRZBDCDYID = b.BDCDYID and a.FWYT = b.FWYT
 where price_jz is null;
 
@@ -1018,35 +1027,7 @@ from T_H_PRICE_JZ
 where PRICE is not null
   and PRICE <> OLD_PRICE;
 
-update T_H_PRICE_JZ
-set PRICE       = OLD_PRICE,
-    PRICE_TOTAL = OLD_PRICE * JZMJ
-where ZRZBDCDYID = '1344817'
-  and FWYT3 = '无障碍车位';
 
-select *
-from T_PRICE_ZRZ
-where BDCDYID = '1344817';
-
-select *
-from T_PRICE_ZRZ
-where BDCDYID = '1344817';
-
-
-
-select *
-from T_PRICE_ZRZ
-where BDCDYID = '290078';
-
-select *
-from T_H_PRICE_JZ
-where ZRZBDCDYID = '290078'
-  and FWYT = '办公';
-select *
-from T_BASE_H_XZ
-where ZRZBDCDYID in (select BDCDYID
-                     from T_PRICE_ZRZ
-                     where bz = '0902新增国信达价格');
 
 select BDCDYID
 from T_H_PRICE_JZ
@@ -1057,8 +1038,9 @@ select *
 from T_H_PRICE_JZ
 where PRICE is not null
   and PRICE <> OLD_PRICE;
+
 insert into T_PRICE_ZRZ (id, bdcdyid, zdbdcdyid, community_id, price, fwyt, createtime, createuser, data_source, zl,
-                         qxdm, bz)
+                         qxdm, bz);
 select sys_guid(),
        ZRZBDCDYID,
        ZDBDCDYID,
@@ -1070,14 +1052,73 @@ select sys_guid(),
        '4',
        ZRZ_ZL,
        QXDM,
-       '0906新增国信达价格'
+       '0909新增国信达价格'
 from (select v.*, pz.price price_jz, pz.fwyt fwyt_jz, pz.data_source
       from v_community_gl_zrz_xq3_gxd v
                left join t_price_zrz pz on v.ZRZBDCDYID = pz.bdcdyid and v.fwyt = pz.fwyt --and (pz.fwyt='储藏室/阁楼' or pz.fwyt='地下室')
-      --where v.fwyt = '储藏室/阁楼' /*and v.ZRZBDCDYID='460162'*/
+         --where v.BZ = '9.9日上午入库（四县+莱芜/钢城）'
+         --where v.fwyt = '储藏室/阁楼' /*and v.ZRZBDCDYID='460162'*/
      )
 where price_jz is null;
 
+select *
+from v_community_gl_zrz_xq3_gxd
+where ZRZBDCDYID = 'LWSXCQ_Z15908';
 
 select *
-from t_data_pgcg_xq3_gxd where BZ = '9.6日入库（四县+莱芜/钢城）';
+from v_community_gl_zrz_ccs
+where ZRZBDCDYID = 'LWSXCQ_Z15908';
+
+select *
+from v_community_gl_zrz
+where ZRZBDCDYID = 'LWSXCQ_Z15908';
+
+select *
+from v_tj_zrz_fwyt
+where ZRZBDCDYID = 'LWSXCQ_Z15908';
+
+
+select COMMUNITY_ID, count(0)
+from t_data_pgcg_xq3_gxd
+where BZ = '9.9日上午入库（四县+莱芜/钢城）'
+group by COMMUNITY_ID
+having count(0) > 1;
+
+
+
+select *
+from T_DATA_PGCG_XQ3_GXD
+where COMMUNITY_ID = '450017709678170811';
+
+select ZRZBDCDYID, FWYT, count(0)
+from (select sys_guid(),
+             ZRZBDCDYID,
+             ZDBDCDYID,
+             COMMUNITY_ID,
+             PRICE,
+             FWYT,
+             sysdate,
+             'zhangbin',
+             '4',
+             ZRZ_ZL,
+             QXDM,
+             '0906新增国信达价格',
+             BZ
+      from (select v.*, pz.price price_jz, pz.fwyt fwyt_jz, pz.data_source
+            from v_community_gl_zrz_xq3_gxd v
+                     left join t_price_zrz pz on v.ZRZBDCDYID = pz.bdcdyid and v.fwyt = pz.fwyt --and (pz.fwyt='储藏室/阁楼' or pz.fwyt='地下室')
+                 --where v.fwyt = '储藏室/阁楼' /*and v.ZRZBDCDYID='460162'*/
+            where v.BZ = '9.9日上午入库（四县+莱芜/钢城）')
+      where price_jz is null)
+group by ZRZBDCDYID, FWYT
+having count(0) > 1;
+
+
+select *
+from T_PRICE_ZRZ where DATA_SOURCE is null ;
+
+update T_PRICE_ZRZ
+set DATA_SOURCE = '4'
+where JGLY = '4:国信达提供' and DATA_SOURCE is null ;
+
+select count(0) from T_PRICE_ZRZ;

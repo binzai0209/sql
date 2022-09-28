@@ -25,6 +25,10 @@ truncate table T_CHK_RECORD_INFO;
 truncate table T_WORKFLOW_ACTINST;
 
 
+select *
+from T_YW_SURVEY_TASK;
+
+
 -- 查看被锁住的表
 SELECT object_name, machine, s.sid, s.serial#
 FROM gv$locked_object l,

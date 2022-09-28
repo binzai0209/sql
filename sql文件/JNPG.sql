@@ -2,6 +2,9 @@ select *
 from pg_const
 where constslsid = '2021091101';
 
+select count(0)
+from T_H_PRICE_JZ where QXDM = '370102';
+
 
 select *
 from T_BASE_ZRZ_XZ
@@ -18,6 +21,10 @@ where QXDM is not null;
 select *
 from pg_constcls
 where constclsname like '%区县%';
+
+select *
+from pg_constcls
+where MBBSM = '20220913';
 
 
 -- 查看被锁住的表
@@ -563,6 +570,9 @@ where 1 = 1
   and b.SCOPE_ID is not null
 order by qxdm, zl;
 
+select *
+from T_PRICE_ZRZ;
+
 delete
 from T_BEV_GROUP_STANDARD
 where TASK_ID = ?1;
@@ -923,6 +933,61 @@ where b.TASK_ID is not null;
 select *
 from T_BEV_GROUP_STANDARD;
 
+select *
+from T_BEV_TASK;
+
+SELECT *
+FROM T_BEV_TASK_SCOPE
+WHERE ID IN (SELECT SCOPE_ID FROM T_BEV_SCOPE_GROUP_DATA WHERE GROUP_ID = '413677338552317882');
+
+select *
+from T_BEV_RESULT_RECORD
+where TASK_ID = '413677342847285060';
+
+select *
+from T_BEV_SCOPE_GROUP;
+
+select *
+from T_BASE_H_XZ
+where zl = '历下区经十路110号';
+
+select Constclstype
+from pg_constcls
+where CONSTCLSNAME = '批量评估任务状态';
+
+select *
+from T_BEV_TASK;
+
+select *
+from pg_const;
+
+SELECT A.ID
+     , A.GROUP_NAME
+     , LEVEL                                    "层次"
+     , PRIOR A.ID                               "父节点"
+     , CONNECT_BY_ROOT A.PARENT_ID              "根节点"
+     , DECODE(CONNECT_BY_ISLEAF, 1, A.ID, NULL) "子节点"
+     , DECODE(CONNECT_BY_ISLEAF, 1, '是', '否') "是否子节点"
+FROM T_BEV_SCOPE_GROUP A
+START WITH A.ID in (select id
+                    from T_BEV_SCOPE_GROUP b
+                    where b.PARENT_ID = '0'
+                      and b.TASK_ID = '413677342847285060') --从PARENT为空开始扫描
+CONNECT BY PRIOR A.ID = A.PARENT_ID --以CHILD为父列连接PARENT
+ORDER SIBLINGS BY ID DESC --对层次排序
+;
+
+
+
+select *
+from T_BEV_TASK;
+
+select *
+from T_BEV_TASK_SCOPE
+where TASK_ID = '413677338552317856';
+
+truncate table T_BEV_RESULT_RECORD;
+
 
 
 select a.BDCDYID, a.ZDBDCDYID, a.ZL, b.FWYT4, a.ZCS, SCJZMJ jzmj, a.QXDM
@@ -1026,7 +1091,7 @@ from V_COMMUNITY_GL_ZRZ_ZZ;
 
 -- 15338
 insert into T_PRICE_ZRZ (id, bdcdyid, zdbdcdyid, community_id, price, fwyt, createtime, createuser, data_source, zl,
-                         qxdm, QXMC, ZCS, bz)
+                         qxdm, QXMC, ZCS, bz);
 select sys_guid(),
        d.BDCDYID,
        d.ZDBDCDYID,
@@ -1052,33 +1117,42 @@ select BDCDYID, FWYT, count(0)
 from T_PRICE_ZRZ
 group by BDCDYID, FWYT
 having count(0) > 1;
-insert into T_PRICE_ZRZ (id, bdcdyid, zdbdcdyid, community_id, price, fwyt, createtime, createuser, data_source, zl,
-                         qxdm, QXMC, ZCS, bz);
-select sys_guid(),
-       b.BDCDYID,
-       b.ZDBDCDYID,
-       a.COMMUNITY_ID,
-       a.JG_ZZ,
-       '住宅',
-       sysdate,
-       'zhangbin',
-       '4',
-       b.ZL,
-       b.QXDM,
-       b.QXMC,
-       b.ZCS,
-       '0905新增国信达住宅价格'
-from (select a.COMMUNITY_ID,
-             b.ZRZBDCDYID,
-             a.JG_ZZ,
-             row_number() over (partition by a.COMMUNITY_ID,b.ZRZBDCDYID,a.JG_ZZ order by a.JG_ZZ) r
-      from T_DATA_PGCG_XQ_ZZ_GXD a
-               left join V_COMMUNITY_GL_ZRZ_ZZ b on a.COMMUNITY_ID = b.COMMUNITY_ID
-               left join T_PRICE_ZRZ c on b.ZRZBDCDYID = c.BDCDYID and c.FWYT = '住宅'
-      where b.COMMUNITY_ID is not null
-        and c.PRICE is null) a
-         left join T_BASE_ZRZ_XZ b on a.ZRZBDCDYID = b.BDCDYID
-where a.r = 1;
+
+select *
+from T_PRICE_ZRZ
+where BDCDYID = '190725';
+
+
+select *
+from T_PRICE_ZRZ
+where COMMUNITY_ID = 'CB0F6F22076C66B1E053AF5D14ACBB0C';
+
+select *
+from T_PRICE_ZRZ
+where BZ = '0919新增国信达住宅价格';
+
+
+select COMMUNITY_ID, count(0)
+from T_DATA_PGCG_XQ_ZZ_GXD
+where BZ = '9.19住宅整理入库'
+group by COMMUNITY_ID
+having count(0) > 1;
+
+select *
+from T_DATA_PGCG_XQ_ZZ_GXD
+where COMMUNITY_ID = 'CB0F6F22076C66B1E053AF5D14ACBB0C';
+
+
+
+select *
+from T_DATA_PGCG_XQ_ZZ_GXD
+where COMMUNITY_ID = 'CB0F6F220B1066B1E053AF5D14ACBB0C';
+
+select *
+from T_PRICE_ZRZ
+where COMMUNITY_ID = 'CB0F6F220B1066B1E053AF5D14ACBB0C';
+
+
 
 select *
 from T_PRICE_ZRZ
@@ -1235,3 +1309,509 @@ from T_BASE_ZRZ_XZ a
                     where r = 1) b on a.BDCDYID = b.ZRZBDCDYID
 where b.ZRZBDCDYID is not null
   and TASK_ID = :taskId;
+
+
+select *
+from T_H_PRICE_JZ
+where zl = '锦绣城（二区）1号楼118';
+
+-- 槐荫区齐州路1472号锦绣城(二区)11号楼1-118
+select *
+from T_H_PRICE_JZ
+where zl like '%锦绣城%二区%1号楼1-119%';
+
+update T_H_PRICE_JZ
+set PRICE_TOTAL = PRICE * JZMJ
+where id = 'f0791f78954241a0b45fc129713088db';
+
+select *
+from T_BEV_RESULT_RECORD;
+
+select SCOPE_ID, count(0)
+from T_BEV_RESULT_RECORD
+group by SCOPE_ID
+having count(0) > 1;
+
+select *
+from T_BEV_GROUP_FACTOR;
+
+select *
+from T_BEV_SCOPE_GROUP;
+
+
+select a.*, b.PRICE, b.PRICE * a.JZMJ price_total
+from T_BEV_TASK_SCOPE a
+         left join T_BEV_RESULT_RECORD b on a.id = b.SCOPE_ID
+where a.TASK_ID = '413677342847285060';
+
+
+
+select a.*, b.PRICE, b.PRICE * a.JZMJ price_total
+from T_BEV_TASK_SCOPE a
+         left join T_BEV_RESULT_RECORD b on a.id = b.SCOPE_ID
+where 1 = 1
+order by qxdm, zl;
+
+select ID
+from T_BASE_COMMUNITY
+where COMMUNITY = '下水河新村社区';
+
+
+select *
+from TX_COMMUNITY_A
+where COMMUNITY_ID = '356301244106575476';
+
+select *
+from T_COMMTY_GL_ZD
+where COMMUNITY_ID = '356301244106575476';
+
+
+select *
+from T_BASE_ZRZ_XZ
+where zl like '%万象新天小区三区%';
+
+select zl, PRICE, FWYT, CREATEUSER, CREATETIME, JGLY, bz
+from T_PRICE_ZRZ
+where zl like '%万象新天小区三区%';
+
+truncate table T_BEV_RESULT_RECORD;
+
+select *
+from T_BEV_RESULT_RECORD;
+
+select *
+from T_BEV_TASK;
+select *
+from T_BEV_TASK_SCOPE;
+select *
+from T_BEV_SCOPE_GROUP;
+select *
+from T_BEV_SCOPE_GROUP_DATA;
+select *
+from T_BEV_GROUP_STANDARD;
+select *
+from T_BEV_GROUP_FACTOR;
+select *
+from T_BEV_GROUP_STANDARD;
+
+--槐荫区经七路17号楼底层122房
+select *
+from T_H_PRICE_JZ
+where zl like '%经七路%17号%122%';
+
+select *
+from T_BEV_TASK_SCOPE;
+
+select *
+from T_BEV_TASK_SCOPE;
+
+select *
+from T_H_PRICE_JZ
+where BDCDYH = '370104001002GB01001F10000020';
+
+
+
+select *
+from T_H_PRICE_JZ
+where zl = '历城区世纪大道11977号中新锦绣天地东苑一区18号楼102';
+
+select *
+from T_H_PRICE_JZ
+where BDCDYH = '370104001002GB01001F10000020';
+select *
+from T_BASE_H_XZ
+where FWBM = '20080925212403';
+
+select *
+from T_BASE_H_XZ
+where zl like '%经七路%17号%122%';
+
+
+select BDCDYID, ZDBDCDYID, ZL, ZCS, SCJZMJ jzmj, QXDM, fwyt
+from T_BASE_ZRZ_XZ a
+         left join (select *
+                    from (select TASK_ID,
+                                 zrzbdcdyid,
+                                 fwyt,
+                                 row_number() over (partition by ZRZBDCDYID,FWYT,TASK_ID order by ZRZBDCDYID) r
+                          from T_BEV_TASK_SCOPE)
+                    where r = 1) b on a.BDCDYID = b.ZRZBDCDYID
+where TASK_ID = '413690382367995549'
+order by qxdm, zl;
+
+select *
+from T_BEV_TASK_SCOPE
+where TASK_ID = '413690382367995549';
+
+select *
+from (select TASK_ID,
+             zrzbdcdyid,
+             fwyt,
+             row_number() over (partition by ZRZBDCDYID,FWYT order by ZRZBDCDYID) r
+      from T_BEV_TASK_SCOPE)
+where r = 1;
+
+select *
+from T_BEV_TASK;
+select *
+from T_BEV_TASK_SCOPE
+where BDCDYID in (select BDCDYID
+                  from T_BEV_TASK_SCOPE
+                  group by BDCDYID
+                  having count(0) > 1)
+order by ZL;
+
+select *
+from T_API_WSXX
+WHERE CREATE_TIME < TO_DATE('20220916', 'yyyyMMdd');
+
+
+-- (select sum(JSJE)
+--         from T_API_WSXX b
+--         where b.nsrlx = '权利人'
+--           and sm = '契税'
+--           and b.FWBM = a.FWBM)            jsjg,
+--        ((select sum(JSJE)
+--          from T_API_WSXX b
+--          where b.nsrlx = '权利人'
+--            and sm = '契税'
+--            and b.FWBM = a.FWBM) / SCJZMJ) jsdj,
+-- 差 网签价格  都用房屋编码
+select create_time1,
+       ZL,
+       FWBM,
+       FWYT,
+       FWYT3,
+       SCJZMJ,
+       jyzj,
+       round(jydj, 2)                               jydj,
+       (select sum(JSJE)
+        from (select *
+              from (select FWBM, sm, NSRMC, JSJE, row_number() over (partition by FWBM,NSRMC order by FWBM) r
+                    from T_API_WSXX
+                    where FWBM is not null
+                      and FWBM <> '0'
+                      and nsrlx = '权利人'
+                      and sm = '契税')
+              where r = 1) b
+        where b.FWBM = a.FWBM)                      jsjg,
+       round(((select sum(JSJE)
+               from (select *
+                     from (select FWBM, sm, NSRMC, JSJE, row_number() over (partition by FWBM,NSRMC order by FWBM) r
+                           from T_API_WSXX
+                           where FWBM is not null
+                             and FWBM <> '0'
+                             and nsrlx = '权利人'
+                             and sm = '契税')
+                     where r = 1) b
+               where b.FWBM = a.FWBM) / SCJZMJ), 2) jsdj,
+       PRICE_TOTAL,
+       PRICE
+from (select to_char(c.create_time, 'yyyyMMdd') create_time1,
+             hb.zl,
+             c.FWBM,
+             hb.fwyt3,
+             jg.fwyt,
+             hb.scjzmj,
+             c.JYJG                             jyzj,
+             (c.JYJG / hb.scjzmj)               jydj,
+             JG.PRICE_TOTAL,
+             JG.PRICE
+      from JNPG.T_API_WSXX C
+               left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
+               left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
+      WHERE c.fwbm in (select distinct fwbm
+                       from JNPG.T_API_WSXX a
+                       where a.SM = '土地增值税'
+                         and a.slhjmqk <> '0'
+                         and a.ywlx like '%二手%')
+        and c.sm = '契税'
+        and c.fwbm is not null
+        and hb.fwyt3 not like '%住宅%'
+        and c.ywlx like '%二手%'
+      group by hb.zl, c.fwbm, hb.fwyt3, hb.scjzmj, JG.PRICE_TOTAL, JG.PRICE, jg.fwyt, c.JYJG,
+               to_char(c.create_time, 'yyyyMMdd')
+      order by to_char(c.create_time, 'yyyyMMdd')) a
+where FWBM = '2013011000041807300038';
+
+select FWYT3, FWYT4
+from T_BASE_H_XZ
+where zl = '历下区凤山南路1577号银丰玖玺城五区车库-1610';
+
+select *
+from T_API_WSXX
+where FWBM = '2013011000041807300038'
+  and NSRLX = '权利人';
+
+select *
+from (select FWBM, sm, NSRMC, JSJE, row_number() over (partition by FWBM,NSRMC order by FWBM) r
+      from T_API_WSXX
+      where FWBM is not null
+        and FWBM <> '0'
+        and nsrlx = '权利人'
+        and sm = '契税')
+where r = 1;
+select FWBM, sm, NSRMC, JSJE, row_number() over (partition by FWBM,NSRMC order by FWBM) r
+from T_API_WSXX
+where FWBM is not null
+  and nsrlx = '权利人'
+  and sm = '契税';
+
+select *
+from T_API_WSXX
+where FWBM = '2015092200064791600003';
+select sum(JSJE)
+from T_API_WSXX b
+where b.nsrlx = '权利人'
+  and sm = '契税'
+  and b.FWBM = '2015092200064791600003';
+
+select *
+from T_API_WSXX
+where FWBM = ''
+  and nsrlx = '权利人'
+  and sm = '契税';
+
+
+select sum(JSJE)
+from T_API_WSXX
+where jsfe = '1'
+  and nsrlx = '权利人'
+order by FWBM;
+
+select *
+from T_API_WSXX
+where to_char(create_time, 'yyyyMMdd') = to_char(sysdate, 'yyyyMMdd')
+  and FWBM = '20080925005673';
+-- 有土地增值 是卖房
+
+select distinct jsfe
+from T_API_WSXX;
+
+select *
+from T_API_WSXX a
+where to_char(create_time, 'yyyyMMdd') = to_char(sysdate, 'yyyyMMdd')
+  and a.nsrlx = '权利人'
+  and a.jsfe = '50';
+
+select *
+from T_BASE_H_XZ
+where FWYT4 = '车位/车库'
+  and ZL like '%鲁商%';
+
+select *
+from T_API_WSXX;
+
+
+select *
+from jnpg.t_price_zrz b
+where b.bdcdyid not in (select a.zrzbdcdyid from jnpg.t_h_price_jz a)
+  and STATE = '0';
+
+select *
+from T_PRICE_ZRZ
+where STATE is null
+  and BZ = '小区价格脚本导入20220730国信达提供';
+
+update T_PRICE_ZRZ
+set STATE = '0'
+where STATE is null
+  and BZ = '小区价格脚本导入20220730国信达提供';
+
+select *
+from T_PRICE_ZRZ
+where BDCDYID = 'fbc6a8ad17604492a200c5a4545f16df';
+
+select distinct FWYT4
+from T_BASE_H_XZ
+where ZRZBDCDYID = 'fbc6a8ad17604492a200c5a4545f16df';
+
+411847,3760,地下室
+幢未落地-76390,6078,车库
+1269,3829,地下室
+659630,3691,储藏室/
+阁楼
+647482,6114,储藏室/
+阁楼
+幢未落地-503506,4000,储藏室/
+阁楼
+627708,3080,储藏室/
+阁楼
+637382,4778,车位/
+车库
+627706,3080,储藏室/
+阁楼
+幢未落地-76797,3916,地下室
+
+select *
+from T_H_PRICE_JZ
+where ZRZBDCDYID = '647482'
+  and FWYT = '储藏室/阁楼';
+select *
+from T_BASE_H_XZ
+where ZRZBDCDYID = '647482'
+  and FWYT4 = '储藏室/阁楼';
+
+select *
+from T_PRICE_ZRZ
+where STATE = '0';
+
+
+select id,
+       business_type,
+       object_type,
+       field_name,
+       field_name_desc,
+       field_sort,
+       use_type,
+       create_user,
+       create_time,
+       update_user,
+       update_time,
+       field_type,
+       field_enumerate
+from t_yw_survey_field_option;
+
+select *
+from T_H_PRICE_JZ
+where zl = '槐荫区泰安路887号恒大雅苑13号楼1-105';
+
+update T_H_PRICE_JZ
+set PRICE       = 19500,
+    PRICE_TOTAL = 19500 * JZMJ
+where zl = '槐荫区泰安路887号恒大雅苑13号楼1-105';
+
+
+select FWYT4, FWYT3
+from T_BASE_H_XZ
+where zl = '历下区经十路38号舜山园二期A座及地下人防车库1-2001';
+
+
+select *
+from T_YW_SURVEY_TASK;
+
+select id,
+       hbdcdyid,
+       zrzbdcdyid,
+       zdbdcdyid,
+       community_id,
+       TASK_LEVEL,
+       task_name,
+       task_desc,
+       object_type,
+       zl,
+       actflag,
+       investigator_id,
+       investigator_name,
+       client,
+       client_idnum,
+       sfqlr,
+       result,
+       investigator_sign,
+       client_sign,
+       qlr_sign,
+       create_user,
+       create_time,
+       CHECK_ID,
+       del_flag,
+       actinstid,
+       pub_time,
+       accept_time,
+       phone,
+       homeowner,
+       dep_id,
+       task_yt,
+       smx,
+       smy,
+       task_type
+from t_yw_survey_task
+WHERE del_flag = ?;
+--
+-- -- t_cfg_adjust_factor_standard主键序列
+-- create sequence seq_t_workflow_actinst
+--     increment by 1
+--     start with 10
+--     nomaxvalue
+--     nominvalue
+--     cache 20;
+--
+--         select id, business_type, object_type, field_name, field_name_desc, field_sort, use_type, create_user, create_time, update_user, update_time, field_type, field_enumerate from t_yw_survey_field_option
+
+
+select *
+from V_DATA_PGJG_H_GXD;
+select *
+from jnpg.t_api_wsxx a
+where a.FWBM = '2012101800039350500009';
+
+select *
+from T_API_WSXX
+where ZJHM = '370302199008297528';
+
+select BDCDYID
+from T_H_PRICE_JZ
+where zl = '历下区经十路9777号3号楼2904';
+
+select *
+from T_H_PRICE_JZ_0921
+where zl = '历下区经十路9777号3号楼2904';
+
+select QXDM
+from T_BASE_ZRZ_XZ
+where zl = '钢城区北赵小区19-C1';
+
+SELECT TE.*,
+       P.PRICE,
+       decode(P.FWYT, '', TE.FWYT5, NULL, TE.FWYT5, P.FWYT) FWYT,
+       P.COMMUNITY_ID
+FROM (SELECT ZRZ.BDCDYID,
+             ZRZ.ZL,
+             ZRZ.QXDM,
+             ZRZ.QXMC,
+             ZRZ.ZDBDCDYID,
+             ZRZ.BDCDYH,
+             ZRZ.SCJZMJ JZMJ,
+             ZRZ.ZCS,
+             tq.FWYT5
+      FROM T_BASE_ZRZ_XZ ZRZ
+               left join T_DATA_TQJG_ZRZ tq on tq.BDCDYID = ZRZ.BDCDYID
+      WHERE 1 = 1
+        and zrz.ZL like '%钢城区北赵小区19-C1%'
+        and zrz.QXDM = '371203') TE
+         LEFT JOIN T_PRICE_ZRZ P ON P.BDCDYID = TE.BDCDYID and TE.FWYT5 = p.FWYT
+order by p.zl, p.fwyt;
+
+SELECT TE.*,
+       P.PRICE,
+       decode(P.FWYT, '', TE.FWYT5, NULL, TE.FWYT5, P.FWYT) FWYT,
+       P.COMMUNITY_ID
+FROM (SELECT ZRZ.BDCDYID,
+             ZRZ.ZL,
+             ZRZ.QXDM,
+             ZRZ.QXMC,
+             ZRZ.ZDBDCDYID,
+             ZRZ.BDCDYH,
+             ZRZ.SCJZMJ JZMJ,
+             ZRZ.ZCS,
+             tq.FWYT5
+      FROM T_BASE_ZRZ_XZ ZRZ
+               left join T_DATA_TQJG_ZRZ tq on tq.BDCDYID = ZRZ.BDCDYID
+      WHERE 1 = 1
+        and zrz.ZL like '%钢城区北赵小区19-C1%'
+        and zrz.QXDM = '371203') TE
+         LEFT JOIN T_PRICE_ZRZ P ON P.BDCDYID = TE.BDCDYID and TE.FWYT5 = p.FWYT
+WHERE 1 = 1
+order by p.zl, p.fwyt;
+
+
+select BDCDYID
+from T_BASE_ZRZ_XZ where zl = '莱芜区凤城东大街伯箫路77号天晟·上府文园3幢';
+
+select *
+from v_data_h_xx where BDCDYID = 'LWSXCQ_38861';
+
+select *
+from T_BEV_GROUP_STANDARD where NAME = '历下区经十路10817号-103';
+
+select *
+from T_H_PRICE_JZ;
