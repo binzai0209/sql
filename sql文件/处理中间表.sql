@@ -2,7 +2,78 @@ select *
 from T_DATA_WSXX;
 
 truncate table T_DATA_WSXX;
--- ¥¶¿Ì»´≤ø ˝æ›
+-- Â§ÑÁêÜÂÖ®ÈÉ®Êï∞ÊçÆ
+insert into T_DATA_WSXX (id, bdcdyid, zrzbdcdyid, qxdm, ywh, fwbm, FYBH, zl, fwyt, fwyt3, scjzmj, jyzj, jydj,
+                         price_total, price, ywlx, create_time)
+select sys_guid(),
+       a.bdcdyid,
+       a.zrzbdcdyid,
+       a.qxdm,
+       a.ywh,
+       a.fwbm,
+       a.fybh,
+       a.zl,
+       a.fwyt,
+       a.fwyt3,
+       a.scjzmj,
+       a.jyzj,
+       a.jydj,
+       a.price_total,
+       a.price,
+       a.ywlx,
+       a.create_time
+from (select BDCDYID,
+             ZRZBDCDYID,
+             ZL,
+             FWBM,
+             YWH,
+             FYBH,
+             QXDM,
+             FWYT,
+             FWYT3,
+             SCJZMJ,
+             jyzj,
+             round(jydj, 2) jydj,
+             PRICE_TOTAL,
+             PRICE,
+             YWLX,
+             create_time
+      from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
+                   hb.BDCDYID,
+                   hb.ZRZBDCDYID,
+                   hb.zl,
+                   c.FWBM,
+                   c.FYBH,
+                   c.YWH,
+                   hb.QXDM,
+                   hb.fwyt3,
+                   hb.fwyt4                             fwyt,
+                   hb.scjzmj,
+                   c.JYJG                               jyzj,
+                   (c.JYJG / hb.scjzmj)                 jydj,
+                   JG.PRICE_TOTAL,
+                   JG.PRICE,
+                   c.YWLX
+            from JNPG.T_API_WSXX C
+                     left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
+                     left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
+            WHERE c.sm = 'Â•ëÁ®é'
+              and c.fwbm is not null
+              and hb.SCJZMJ is not null
+              and SCJZMJ <> 0
+              and JYJG is not null
+              and JSJE is not null
+            group by hb.BDCDYID,
+                     hb.ZRZBDCDYID, hb.zl, c.fwbm, hb.fwyt3, hb.scjzmj, JG.PRICE_TOTAL, c.YWLX, c.YWH, hb.QXDM, c.FYBH,
+                     JG.PRICE, hb.fwyt4,
+                     c.JYJG,
+                     to_char(c.create_time, 'yyyy-MM-dd')
+            order by to_char(c.create_time, 'yyyy-MM-dd') desc)) a
+         left join T_DATA_WSXX b
+                   on a.BDCDYID = b.BDCDYID and a.ZRZBDCDYID = b.ZRZBDCDYID and a.YWH = b.YWH and a.FYBH = b.FYBH and
+                      a.FWBM = b.FWBM
+where b.BDCDYID is null ;
+
 insert into T_DATA_WSXX (id, bdcdyid, zrzbdcdyid, qxdm, ywh, fwbm, FYBH, zl, fwyt, fwyt3, scjzmj, jyzj, jydj,
                          price_total, price, ywlx, create_time)
 select sys_guid(),
@@ -57,7 +128,7 @@ from (select BDCDYID,
             from JNPG.T_API_WSXX C
                      left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                      left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-            WHERE c.sm = '∆ıÀ∞'
+            WHERE c.sm = 'Â•ëÁ®é'
               and c.fwbm is not null
               and hb.SCJZMJ is not null
               and SCJZMJ <> 0
@@ -68,22 +139,106 @@ from (select BDCDYID,
                      JG.PRICE, hb.fwyt4,
                      c.JYJG,
                      to_char(c.create_time, 'yyyy-MM-dd')
-            order by to_char(c.create_time, 'yyyy-MM-dd') desc) a);
+            order by to_char(c.create_time, 'yyyy-MM-dd') desc) a
+      where 1 = 1
+        and (YWLX like '%‰∏ÄÊâã%' or YWLX like '%ÂïÜÂìÅ%')
+      order by create_time desc);
 
-select *
+insert into T_DATA_WSXX (id, bdcdyid, zrzbdcdyid, qxdm, ywh, fwbm, FYBH, zl, fwyt, fwyt3, scjzmj, jyzj, jydj,
+                         price_total, price, ywlx, create_time)
+select sys_guid(),
+       bdcdyid,
+       zrzbdcdyid,
+       qxdm,
+       ywh,
+       fwbm,
+       fybh,
+       zl,
+       fwyt,
+       fwyt3,
+       scjzmj,
+       jyzj,
+       jydj,
+       price_total,
+       price,
+       ywlx,
+       create_time
+from (select BDCDYID,
+             ZRZBDCDYID,
+             ZL,
+             FWBM,
+             a.YWH,
+             FYBH,
+             QXDM,
+             FWYT,
+             FWYT3,
+             SCJZMJ,
+             b.SLHJMQK,
+             decode(fwyt, 'ÂÇ®ËóèÂÆ§/ÈòÅÊ•º', decode(b.SLHJMQK, 0, 0, null, jyzj, jyzj), 'Âú∞‰∏ãÂÆ§',
+                    decode(b.SLHJMQK, 0, 0, null, jyzj, jyzj), 'ËΩ¶‰Ωç/ËΩ¶Â∫ì',
+                    decode(b.SLHJMQK, 0, 0, null, jyzj, jyzj), jyzj)           as jyzj,
+             round(decode(fwyt, 'ÂÇ®ËóèÂÆ§/ÈòÅÊ•º', decode(b.SLHJMQK, 0, 0, null, jydj, jydj), 'Âú∞‰∏ãÂÆ§',
+                          decode(b.SLHJMQK, 0, 0, null, jydj, jydj), 'ËΩ¶‰Ωç/ËΩ¶Â∫ì',
+                          decode(b.SLHJMQK, 0, 0, null, jydj, jydj), jydj), 2) as jydj,
+             PRICE_TOTAL,
+             PRICE,
+             YWLX,
+             create_time
+      from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
+                   hb.BDCDYID,
+                   hb.ZRZBDCDYID,
+                   hb.zl,
+                   c.FWBM,
+                   c.FYBH,
+                   c.YWH,
+                   hb.QXDM,
+                   hb.fwyt3,
+                   hb.fwyt4                             fwyt,
+                   hb.scjzmj,
+                   c.JYJG                               jyzj,
+                   (c.JYJG / hb.scjzmj)                 jydj,
+                   JG.PRICE_TOTAL,
+                   JG.PRICE,
+                   c.YWLX
+            from JNPG.T_API_WSXX C
+                     left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
+                     left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
+            WHERE c.sm = 'Â•ëÁ®é'
+              and c.fwbm is not null
+              and hb.SCJZMJ is not null
+              and SCJZMJ <> 0
+              and JYJG is not null
+              and JSJE is not null
+            group by hb.BDCDYID,
+                     hb.ZRZBDCDYID, hb.zl, c.fwbm, hb.fwyt3, hb.scjzmj, JG.PRICE_TOTAL, c.YWLX, c.YWH, hb.QXDM, c.FYBH,
+                     JG.PRICE, hb.fwyt4,
+                     c.JYJG,
+                     to_char(c.create_time, 'yyyy-MM-dd')
+            order by to_char(c.create_time, 'yyyy-MM-dd') desc) a
+               left join (select *
+                          from (select ywh, sm, SLHJMQK, row_number() over (partition by YWH order by YWH) r
+                                from T_API_WSXX
+                                where SM = 'ÂúüÂú∞Â¢ûÂÄºÁ®é')
+                          where r = 1) b on a.YWH = b.YWH
+      where 1 = 1
+        and YWLX like '%‰∫åÊâã%'
+      order by create_time desc);
+
+select BDCDYID, count(0)
 from T_DATA_WSXX
-where JSZJ is not null;
+group by BDCDYID
+having count(0) > 1;
 
 truncate table TABLEITEM;
--- ¥¶¿Ìº∆À∞µ•º€
+-- Â§ÑÁêÜËÆ°Á®éÂçï‰ª∑
 INSERT INTO TABLEITEM (aa, bb, cc)
 select FWBM, FYBH, JSZJ
 from (select FWBM, FYBH, sum(JSJE) JSZJ
       from (select *
             from (select FWBM, FYBH, sm, NSRMC, JSJE, row_number() over (partition by FWBM,FYBH,NSRMC order by FWBM) r
                   from T_API_WSXX
-                  where nsrlx = '»®¿˚»À'
-                    and sm = '∆ıÀ∞')
+                  where nsrlx = 'ÊùÉÂà©‰∫∫'
+                    and sm = 'Â•ëÁ®é')
             where r = 1)
       group by FWBM, FYBH);
 
@@ -95,7 +250,7 @@ select *
 from T_DATA_WSXX
 where JSZJ is not null;
 
--- ∏¸–¬º∆À∞µ•º€
+-- Êõ¥Êñ∞ËÆ°Á®éÊÄª‰ª∑
 update T_DATA_WSXX a
 set JSZJ =(select CC
            from TABLEITEM b
@@ -106,7 +261,7 @@ where EXISTS(select 1
              where b.aa = a.FWBM
                and b.bb = a.FYBH);
 
--- ∏¸–¬º∆À∞◊‹º€
+-- Êõ¥Êñ∞ËÆ°Á®éÂçï‰ª∑
 update T_DATA_WSXX
 set JSDJ = round(JSZJ / SCJZMJ, 2)
 where JSZJ is not null;
@@ -117,13 +272,13 @@ select *
 from T_DATA_WSXX;
 
 truncate table TABLEITEM;
--- ¥¶¿Ì µƒ…Ω∂Ó
+-- Â§ÑÁêÜÂÆûÁ∫≥ÈáëÈ¢ù
 insert into TABLEITEM (aa, bb)
 select YWH, sum(SNJE)
 from T_API_WSXX
 group by YWH;
 
--- ∏¸–¬ µƒ…Ω∂Ó
+-- Êõ¥Êñ∞ÂÆûÁ∫≥ÈáëÈ¢ù
 update T_DATA_WSXX a
 set SNJE = (select bb from TABLEITEM b where a.YWH = b.aa)
 where EXISTS(select 1 from TABLEITEM b where b.aa = a.YWH);
@@ -134,14 +289,14 @@ from T_DATA_WSXX;
 
 truncate table TABLEITEM;
 
--- ¥¶¿Ì¥±◊¯±Í
+-- Â§ÑÁêÜÂπ¢ÂùêÊ†á
 insert into TABLEITEM (aa, bb, cc)
 select BDCDYID, SMX, SMY
 from (select BDCDYID, SMX, SMY, row_number() over (partition by BDCDYID order by BDCDYID) r
       from TX_ZRZ_XZ_P)
 where r = 1;
 
--- ∏¸–¬¥±◊¯±Í
+-- Êõ¥Êñ∞Âπ¢ÂùêÊ†á
 update T_DATA_WSXX a
 set (smx, smy) = (select bb, cc
                   from TABLEITEM b
@@ -153,12 +308,12 @@ where EXISTS(select 1
 
 truncate table TABLEITEM;
 
--- ¥¶¿Ì¬•≈Ã◊‘»ª¥±πÿœµ
+-- Â§ÑÁêÜÊ•ºÁõòËá™ÁÑ∂Âπ¢ÂÖ≥Á≥ª
 insert into TABLEITEM (aa, bb)
 select COMMUNITY_ID, ZRZBDCDYID
 from V_COMMUNITY_GL_ZRZ;
 
--- ∏¸–¬πÿœµ
+-- Êõ¥Êñ∞ÂÖ≥Á≥ª
 update T_DATA_WSXX a
 set COMMUNITY_ID = (select aa
                     from TABLEITEM b
@@ -182,12 +337,55 @@ where EXISTS(select 1
 select *
 from T_DATA_WSXX;
 
--- ∏¸–¬¬•≈Ã√˚≥∆
+-- Êõ¥Êñ∞Ê•ºÁõòÂêçÁß∞
 update T_DATA_WSXX a
-set COMMUNITY = (select community from T_BASE_COMMUNITY b where a.COMMUNITY_ID = b.ID )
-where EXISTS(select 1 from T_BASE_COMMUNITY b where a.COMMUNITY_ID = b.ID ) and COMMUNITY_ID is not null ;
+set COMMUNITY = (select community from T_BASE_COMMUNITY b where a.COMMUNITY_ID = b.ID)
+where EXISTS(select 1 from T_BASE_COMMUNITY b where a.COMMUNITY_ID = b.ID)
+  and COMMUNITY_ID is not null;
 
--- ∏¸–¬◊‘»ª¥±◊¯¬‰
+-- Êõ¥Êñ∞Ëá™ÁÑ∂Âπ¢ÂùêËêΩ
 update T_DATA_WSXX a
-set ZRZZL = (select zl from T_BASE_ZRZ_XZ b where a.ZRZBDCDYID = b.BDCDYID )
-where EXISTS(select 1 from T_BASE_ZRZ_XZ b where a.ZRZBDCDYID = b.BDCDYID );
+set ZRZZL = (select zl from T_BASE_ZRZ_XZ b where a.ZRZBDCDYID = b.BDCDYID)
+where EXISTS(select 1 from T_BASE_ZRZ_XZ b where a.ZRZBDCDYID = b.BDCDYID);
+
+truncate table TABLEITEM;
+-- Ê∑ªÂä†ËÆ°Á®éÊÄª‰ª∑
+INSERT INTO TABLEITEM (aa, bb, cc)
+select FWBM, FYBH, JSZJ
+from (select FWBM, FYBH, sum(JSJE) JSZJ
+      from (select *
+            from (select FWBM, FYBH, sm, NSRMC, JSJE, row_number() over (partition by FWBM,FYBH,NSRMC order by FWBM) r
+                  from T_API_WSXX
+                  where nsrlx = 'ÊùÉÂà©‰∫∫'
+                    and sm = 'Â•ëÁ®é')
+            where r = 1)
+      group by FWBM, FYBH);
+
+-- Êõ¥Êñ∞ËÆ°Á®éÊÄª‰ª∑
+update T_DATA_WSXX a
+set JSZJ =(select CC
+           from TABLEITEM b
+           where b.aa = a.FWBM
+             and b.bb = a.FYBH)
+where EXISTS(select 1
+             from TABLEITEM b
+             where b.aa = a.FWBM
+               and b.bb = a.FYBH);
+
+-- Ê∑ªÂä†ÂÆûÁ∫≥ÈáëÈ¢ù
+truncate table TABLEITEM;
+
+insert into TABLEITEM (aa,bb)
+select YWH,sum(SNJE)
+from T_API_WSXX group by YWH;
+
+-- Êõ¥Êñ∞ÂÆûÁ∫≥ÈáëÈ¢ù
+update T_DATA_WSXX a
+set SNJE = (select bb from TABLEITEM b where a.YWH = b.aa)
+where EXISTS(select 1 from TABLEITEM b where b.aa = a.YWH);
+
+select *
+from T_DATA_WSXX;
+
+
+

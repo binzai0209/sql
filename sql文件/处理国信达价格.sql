@@ -64,16 +64,9 @@ from (select a.*,
       from V_GXD_ZRZ_PRICE a) b
 where b.DATA_SOURCE is null;
 
-
-
-select *
-from V_COMMUNITY_GL_ZRZ;
-
-
 select *
 from T_PRICE_COMMTY
 where COMMUNITY_ID = 'CB0F6F220E9666B1E053AF5D14ACBB0C';
-
 
 
 create table T_H_PRICE_JZ_0813 parallel 8 as

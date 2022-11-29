@@ -18,8 +18,8 @@ select create_time1,
                     from T_API_WSXX
                     where FWBM is not null -- and JSFE is not null
                       and FWBM <> '0'
-                      and nsrlx = '»®¿˚»À'
-                      and sm = '∆ıÀ∞')
+                      and nsrlx = 'ÊùÉÂà©‰∫∫'
+                      and sm = 'Â•ëÁ®é')
               where r = 1) b
         where b.FWBM = a.FWBM
           and b.fybh = a.FYBH)                      jsjg,
@@ -34,8 +34,8 @@ select create_time1,
                            from T_API_WSXX
                            where FWBM is not null --and JSFE is not null
                              and FWBM <> '0'
-                             and nsrlx = '»®¿˚»À'
-                             and sm = '∆ıÀ∞')
+                             and nsrlx = 'ÊùÉÂà©‰∫∫'
+                             and sm = 'Â•ëÁ®é')
                      where r = 1) b
                where b.FWBM = a.FWBM
                  and b.fybh = a.FYBH) / SCJZMJ), 2) jsdj,
@@ -56,7 +56,7 @@ from (select to_char(c.create_time, 'yyyyMMdd') create_time1,
       from JNPG.T_API_WSXX C
                left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-      WHERE c.sm = '∆ıÀ∞'
+      WHERE c.sm = 'Â•ëÁ®é'
         and c.fwbm is not null
         and hb.SCJZMJ is not null
         and SCJZMJ <> 0
@@ -81,8 +81,8 @@ from T_API_WSXX;
 
 select *
 from T_BASE_H_XZ
-where FWYT4 = '≥µŒª/≥µø‚'
-  and ZL like '%¬≥…Ã%';
+where FWYT4 = 'ËΩ¶‰Ωç/ËΩ¶Â∫ì'
+  and ZL like '%È≤ÅÂïÜ%';
 
 
 select create_time,
@@ -114,7 +114,7 @@ from (select to_char(c.create_time, 'yyyyMMdd') create_time,
       from JNPG.T_API_WSXX C
                left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-      WHERE c.sm = '∆ıÀ∞'
+      WHERE c.sm = 'Â•ëÁ®é'
         and c.fwbm is not null
         and hb.SCJZMJ is not null
         and SCJZMJ <> 0
@@ -132,8 +132,8 @@ where 1 = 1;
              from T_API_WSXX
              where FWBM is not null
                and FWBM <> '0'
-               and nsrlx = '»®¿˚»À'
-               and sm = '∆ıÀ∞')
+               and nsrlx = 'ÊùÉÂà©‰∫∫'
+               and sm = 'Â•ëÁ®é')
        where r = 1) b
  where b.FWBM = a.FWBM)
 ;
@@ -142,8 +142,8 @@ from (select *
       from (select FWBM, sm, NSRMC, JSJE, row_number() over (partition by FWBM,NSRMC order by FWBM) r
             from T_API_WSXX
             where FWBM = ''
-              and nsrlx = '»®¿˚»À'
-              and sm = '∆ıÀ∞')
+              and nsrlx = 'ÊùÉÂà©‰∫∫'
+              and sm = 'Â•ëÁ®é')
       where r = 1);
 
 
@@ -174,7 +174,7 @@ from (select to_char(c.create_time, 'yyyyMMdd') create_time,
       from JNPG.T_API_WSXX C
                left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-      WHERE c.sm = '∆ıÀ∞'
+      WHERE c.sm = 'Â•ëÁ®é'
         and c.fwbm is not null
         and hb.SCJZMJ is not null
         and SCJZMJ <> 0
@@ -184,7 +184,7 @@ from (select to_char(c.create_time, 'yyyyMMdd') create_time,
                to_char(c.create_time, 'yyyyMMdd')
       order by to_char(c.create_time, 'yyyyMMdd')) a
 where 1 = 1
-  and (YWLX like '%“ª ÷%' or YWLX like '%…Ã∆∑%')
+  and (YWLX like '%‰∏ÄÊâã%' or YWLX like '%ÂïÜÂìÅ%')
 
 
 select create_time,
@@ -218,7 +218,7 @@ from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
       from JNPG.T_API_WSXX C
                left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-      WHERE c.sm = '∆ıÀ∞'
+      WHERE c.sm = 'Â•ëÁ®é'
         and c.fwbm is not null
         and hb.SCJZMJ is not null
         and SCJZMJ <> 0
@@ -229,7 +229,7 @@ from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
                to_char(c.create_time, 'yyyy-MM-dd')
       order by to_char(c.create_time, 'yyyy-MM-dd') desc) a
 where 1 = 1
-  and FWYT <> '◊°’¨'
+  and FWYT <> '‰ΩèÂÆÖ'
   AND create_time < TO_CHAR(SYSDATE, 'yyyy-MM-dd');
 
 select YWH
@@ -247,8 +247,8 @@ from (select *
             from T_API_WSXX
             where FWBM = FWBM
               and fybh = FYBH
-              and nsrlx = '»®¿˚»À'
-              and sm = '∆ıÀ∞')
+              and nsrlx = 'ÊùÉÂà©‰∫∫'
+              and sm = 'Â•ëÁ®é')
       where r = 1);
 
 select BDCDYID,
@@ -272,8 +272,8 @@ select BDCDYID,
                     from T_API_WSXX
                     where FWBM = FWBM
                       and fybh = FYBH
-                      and nsrlx = '»®¿˚»À'
-                      and sm = '∆ıÀ∞')
+                      and nsrlx = 'ÊùÉÂà©‰∫∫'
+                      and sm = 'Â•ëÁ®é')
               where r = 1)) JSZJ,
        create_time
 from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
@@ -295,7 +295,7 @@ from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
       from JNPG.T_API_WSXX C
                left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
                left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-      WHERE c.sm = '∆ıÀ∞'
+      WHERE c.sm = 'Â•ëÁ®é'
         and c.fwbm is not null
         and hb.SCJZMJ is not null
         and SCJZMJ <> 0
@@ -313,6 +313,6 @@ from (select *
             from T_API_WSXX
             where FWBM = '2012022800033738100049'
               and fybh = 'F37010320220077268'
-              and nsrlx = '»®¿˚»À'
-              and sm = '∆ıÀ∞')
+              and nsrlx = 'ÊùÉÂà©‰∫∫'
+              and sm = 'Â•ëÁ®é')
       where r = 1)

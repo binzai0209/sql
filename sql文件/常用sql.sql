@@ -1,4 +1,4 @@
--- ÅúÁ¿¸üĞÂÆÀ¹À³É¹û
+-- æ‰¹é‡æ›´æ–°è¯„ä¼°æˆæœ
 begin
     for cur in (select h.BDCDYH, t.ZL
                 from T_BASE_H_XZ h,
@@ -10,27 +10,17 @@ begin
         end loop;
 end;
 
--- Çå¿Õ·¿Ô´ĞÅÏ¢Ïà¹ØÊı¾İ
-delete
-from t_dj_fyxxfrom;
-delete
-from t_dj_slxxform;
-delete
-from t_dj_csfxxgrid;
-delete
-from t_dj_zrfxxgrid;
-
---µØ
+--åœ°
 select *
 from t_data_wqjg_h_avg_year2_1 T;
---´±
+--å¹¢
 select (select Z.zcs from T_BASE_ZRZ_XZ z where z.BDCDYID = h.zrzbdcdyid and rownum = 1) ZCS
 from t_data_wqjg_h_avg_year3_1 H;
---»§
+--æˆ·
 select *
 from t_base_h_xz;
 
--- ¿ÉÕ¹Ê¾È«²¿ĞÅÏ¢µÄ»§
+-- å¯å±•ç¤ºå…¨éƒ¨ä¿¡æ¯çš„æˆ·
 select *
 from t_base_h_xz
 WHERE CH is not null
@@ -49,150 +39,37 @@ WHERE CH is not null
   and FWYT4 is not null
   and HX is not null;
 
--- È¥ÖØÊıÁ¿²éÑ¯
+-- å»é‡æ•°é‡æŸ¥è¯¢
 select count(distinct bdcdyh)
 from v_data_tax_pgjg
 where bdcdyh is not null;
 
--- ·ÖÒ³²éÑ¯³É½»¼Û¸ñ
+-- åˆ†é¡µæŸ¥è¯¢æˆäº¤ä»·æ ¼
 select *
 from (select rownum as num, t.* from t_data_cjjg t where rownum <= 12) table_cjjg
 where table_cjjg.num >= 1;
 
--- ×Öµä´óÀà
+-- å­—å…¸å¤§ç±»
 select *
 from pg_constcls
-where constclsname like '%À´Ô´%';
--- ×ÖµäĞ¡Àà
+where constclsname like '%æ¥æº%';
+-- å­—å…¸å°ç±»
 select *
 from pg_const
 where constslsid = '2021112301';
 
 
--- ²é¿´±»Ëø×¡µÄ±í
+-- æŸ¥çœ‹è¢«é”ä½çš„è¡¨
 SELECT object_name, machine, s.sid, s.serial#
 FROM gv$locked_object l,
      dba_objects o,
      gv$session s
-WHERE l.object_id¡¡ = o.object_id
+WHERE l.object_idã€€ = o.object_id
   AND l.session_id = s.sid;
 
--- É±µô±»Ëø×¡µÄ±í
+-- æ€æ‰è¢«é”ä½çš„è¡¨
 ALTER system kill session '42, 5185';
 
 select *
 from pg_const
-where consttrans like '%Ìİ%';
-
-delete
-from PG_ZD;
-delete
-from PG_H;
-delete
-from PG_ZRZ;
-
-select *
-from pg_h;
-select *
-from pg_zd;
-select *
-from pg_zrz;
-
-select *
-from t_Data_Pgcg_h_Gxd
-where BDC_ZKW is not null;
-
-select *
-from t_base_community
-where id = 'CB0F6F22077266B1E053AF5D14ACBB0C';
-
-
-
-select *
-from t_commty_gl_zd;
-
-select *
-from t_commty_gl_gxd;
-
-select *
-from t_base_community_bk;
-
-select *
-from t_base_community;
-
-
-select *
-from t_data_pgcg_community_gxd;
-
-select *
-from T_BASE_ZD_XZ;
-
-
-
-select count(*)
-from t_base_h_xz h
-where h.zdbdcdyid in (select c.zd_id from t_commty_gl_zd c where c.community_id = 'CB0F6F22077366B1E053AF5D14ACBB0C');
-
-
-select *
-from (select C.*, D.FWYT4, D.JG_SINGLE, d.community community_temp
-      from T_BASE_COMMUNITY C
-               LEFT JOIN V_DATA_TAX_PGJG_COMMUNITY D ON C.ID = D.COMMUNITY_ID)
-where community_temp is not null;
-
-select *
-from v_data_pgjg_community_gxd;
-
-select *
-from t_base_community c
-where c.kfgs_id is null;
-
-
-select count(distinct gsmc)
-from t_base_enterprise;
-
-select *
-from t_base_enterprise
-where gsmc = '¼ÃÄÏÒø¶¼·¿µØ²ú¿ª·¢ÓĞÏŞ¹«Ë¾';
-
-
-
-select count(*)
-from T_DATA_PGCG_H_GXD
-where hbdcdyh is not null;
-
-select count(bdcdyh)
-from V_DATA_TAX_PGJG;
-
-
-
-select *
-from ESCOMMUNITY
-where id = 'CB0F6F220C6766B1E053AF5D14ACBB0C';
-
-SELECT *
-FROM v_data_pgjg_community_gxd g
-WHERE g.name = (SELECT max(s.name) FROM v_data_pgjg_community_gxd s WHERE g.name = s.name);
-
-select *
-from (select t.*, row_number() over (partition by id order by rownum) rn from v_data_pgjg_community_gxd t)
-where rn = 1
-  and sfgl = '0';
-
-
-select count(distinct id)
-from v_data_pgjg_community_gxd;
-
-
-select *
-from t_base_community c
-where c.community = 'Íò´ï»ª¸®';
-
-
-select CAST(h.PRICE * h.JZMJ AS NUMBER(10, 6))
-from T_PRICE_H h;
-
-
-select count(*)
-from T_PRICE_H
-where QSC is null;
+where consttrans like '%æ¢¯%';

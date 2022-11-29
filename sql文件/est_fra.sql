@@ -4,319 +4,178 @@ from SYS_USER;
 select *
 from SYS_DEPT;
 
--- auto-generated definition
-create table T_CHECK_GL_RULE
-(
-    ID        NUMBER not null
-        constraint T_CHECK_GL_RULE_PK
-            primary key,
-    CHECK_ID  VARCHAR2(50),
-    H         VARCHAR2(10),
-    ZRZ       VARCHAR2(10),
-    ZD        VARCHAR2(10),
-    COMMUNITY VARCHAR2(20)
-)
-/
-
-comment on table T_CHECK_GL_RULE is '检查关联规则表'
-/
-
-comment on column T_CHECK_GL_RULE.CHECK_ID is '检查id'
-/
-
-comment on column T_CHECK_GL_RULE.H is '户规则'
-/
-
-comment on column T_CHECK_GL_RULE.ZRZ is '自然幢id'
-/
-
-comment on column T_CHECK_GL_RULE.ZD is '宗地规则'
-/
-
-comment on column T_CHECK_GL_RULE.COMMUNITY is '楼盘规则'
-/
-
-
-
--- auto-generated definition
-create table T_BASE_PQ
-(
-    ID          VARCHAR2(32) not null
-        primary key,
-    SSJWH       VARCHAR2(255),
-    FBSJ        DATE,
-    PQMC        VARCHAR2(255),
-    PQDZ        VARCHAR2(255),
-    PQXZ        VARCHAR2(255),
-    PQNZ        VARCHAR2(255),
-    PQBZ        VARCHAR2(255),
-    ZYDMJ       NUMBER(20, 2),
-    JSYDMJ      NUMBER(20, 2),
-    JSYDZB      VARCHAR2(255),
-    FJSYDMJ     NUMBER(20, 2),
-    FJSYDZB     VARCHAR2(255),
-    PQZDGN      VARCHAR2(4000),
-    SSFQ        VARCHAR2(200),
-    BADW        VARCHAR2(200),
-    XMFZR       VARCHAR2(200),
-    RKRY        VARCHAR2(200),
-    RKSJ        DATE,
-    CREATE_USER VARCHAR2(200),
-    CREATE_TIME DATE,
-    UPDATE_USER VARCHAR2(200),
-    UPDATE_TIME DATE,
-    PQDJ        VARCHAR2(20)
-)
-/
-
-comment on column T_BASE_PQ.ID is '主键'
-/
-
-comment on column T_BASE_PQ.SSJWH is '所属居委会'
-/
-
-comment on column T_BASE_PQ.FBSJ is '发布时间'
-/
-
-comment on column T_BASE_PQ.PQMC is '片区名称'
-/
-
-comment on column T_BASE_PQ.PQDZ is '片区东至'
-/
-
-comment on column T_BASE_PQ.PQXZ is '片区西至'
-/
-
-comment on column T_BASE_PQ.PQNZ is '片区南至'
-/
-
-comment on column T_BASE_PQ.PQBZ is '片区北至'
-/
-
-comment on column T_BASE_PQ.ZYDMJ is '总用地面积'
-/
-
-comment on column T_BASE_PQ.JSYDMJ is '建设用地面积'
-/
-
-comment on column T_BASE_PQ.JSYDZB is '建设用地占比'
-/
-
-comment on column T_BASE_PQ.FJSYDMJ is '非建设用地面积'
-/
-
-comment on column T_BASE_PQ.FJSYDZB is '非建设用地占比'
-/
-
-comment on column T_BASE_PQ.PQZDGN is '片区主导功能'
-/
-
-comment on column T_BASE_PQ.SSFQ is '所属商圈
-'
-/
-
-comment on column T_BASE_PQ.BZDW is '标注单位'
-/
-
-comment on column T_BASE_PQ.XMFZR is '项目负责人'
-/
-
-comment on column T_BASE_PQ.RKRY is '入库人员'
-/
-
-comment on column T_BASE_PQ.RKSJ is '入库时间'
-/
-
-comment on column T_BASE_PQ.CREATE_USER is '创建人'
-/
-
-comment on column T_BASE_PQ.CREATE_TIME is '创建时间'
-/
-
-comment on column T_BASE_PQ.UPDATE_USER is '更新人'
-/
-
-comment on column T_BASE_PQ.UPDATE_TIME is '更新时间'
-/
-
-comment on column T_BASE_PQ.PQDJ is '片区等级'
-/
-
-
-
--- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2412, '片区', '2005', '1', '/datamanagerplate/pq', 'C', '0', 'datamanagerplate:pq:view', '#', 'admin', sysdate, '', null, '片区菜单');
-
--- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '片区查询', 2412, '1',  '#',  'F', '0', 'datamanagerplate:pq:list',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '片区新增', 2412, '2',  '#',  'F', '0', 'datamanagerplate:pq:add',          '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '片区修改', 2412, '3',  '#',  'F', '0', 'datamanagerplate:pq:edit',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '片区删除', 2412, '4',  '#',  'F', '0', 'datamanagerplate:pq:remove',       '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '片区导出', 2412, '5',  '#',  'F', '0', 'datamanagerplate:pq:export',       '#', 'admin', sysdate, '', null, '');
-
-
-
--- auto-generated definition
-create table T_BASE_SQ
-(
-    ID        VARCHAR2(35) not null
-        primary key,
-    SQMC      VARCHAR2(255),
-    SQDZ      VARCHAR2(255),
-    SQXZ      VARCHAR2(255),
-    SQNZ      VARCHAR2(255),
-    SQBZ      VARCHAR2(255),
-    PRICE     VARCHAR2(20),
-    PRICEUNIT VARCHAR2(20),
-    DJ        VARCHAR2(20)
-)
-/
-
-comment on table T_BASE_SQ is '商圈表'
-/
-
-comment on column T_BASE_SQ.ID is '主键'
-/
-
-comment on column T_BASE_SQ.SQMC is '商圈名称'
-/
-
-comment on column T_BASE_SQ.SQDZ is '商圈东至'
-/
-
-comment on column T_BASE_SQ.SQXZ is '商圈西至'
-/
-
-comment on column T_BASE_SQ.SQNZ is '商圈南至'
-/
-
-comment on column T_BASE_SQ.SQBZ is '商圈北至'
-/
-
-comment on column T_BASE_SQ.PRICE is '商圈均价'
-/
-
-comment on column T_BASE_SQ.PRICEUNIT is '价格单位'
-/
-
-comment on column T_BASE_SQ.DJ is '商圈等级'
-/
-
-
-
--- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2421, '商圈', '2005', '1', '/datamanagerplate/sq', 'C', '0', 'datamanagerplate:sq:view', '#', 'admin', sysdate, '', null, '商圈菜单');
-
--- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '商圈查询', 2421, '1',  '#',  'F', '0', 'datamanagerplate:sq:list',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '商圈新增', 2421, '2',  '#',  'F', '0', 'datamanagerplate:sq:add',          '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '商圈修改', 2421, '3',  '#',  'F', '0', 'datamanagerplate:sq:edit',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '商圈删除', 2421, '4',  '#',  'F', '0', 'datamanagerplate:sq:remove',       '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '商圈导出', 2421, '5',  '#',  'F', '0', 'datamanagerplate:sq:export',       '#', 'admin', sysdate, '', null, '');
-
-
--- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2428, '楼盘', '2005', '1', '/datamanagerplate/community', 'C', '0', 'datamanagerplate:community:view', '#', 'admin', sysdate, '', null, '楼盘菜单');
-
--- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘查询', 2428, '1',  '#',  'F', '0', 'datamanagerplate:community:list',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘新增', 2428, '2',  '#',  'F', '0', 'datamanagerplate:community:add',          '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘修改', 2428, '3',  '#',  'F', '0', 'datamanagerplate:community:edit',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘删除', 2428, '4',  '#',  'F', '0', 'datamanagerplate:community:remove',       '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘导出', 2428, '5',  '#',  'F', '0', 'datamanagerplate:community:export',       '#', 'admin', sysdate, '', null, '');
-
--- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2441, '楼盘采集任务', '2005', '1', '/datamanagerplate/comm_task', 'C', '0', 'datamanagerplate:comm_task:view', '#', 'admin', sysdate, '', null, '楼盘采集任务菜单');
-
--- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务查询', 2441, '1',  '#',  'F', '0', 'datamanagerplate:comm_task:list',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务新增', 2441, '2',  '#',  'F', '0', 'datamanagerplate:comm_task:add',          '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务修改', 2441, '3',  '#',  'F', '0', 'datamanagerplate:comm_task:edit',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务删除', 2441, '4',  '#',  'F', '0', 'datamanagerplate:comm_task:remove',       '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务导出', 2441, '5',  '#',  'F', '0', 'datamanagerplate:comm_task:export',       '#', 'admin', sysdate, '', null, '');
-
--- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2428, '楼盘', '2005', '1', '/datamanagerplate/community', 'C', '0', 'datamanagerplate:community:view', '#', 'admin', sysdate, '', null, '楼盘菜单');
-
--- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘查询', 2428, '1',  '#',  'F', '0', 'datamanagerplate:community:list',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘新增', 2428, '2',  '#',  'F', '0', 'datamanagerplate:community:add',          '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘修改', 2428, '3',  '#',  'F', '0', 'datamanagerplate:community:edit',         '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘删除', 2428, '4',  '#',  'F', '0', 'datamanagerplate:community:remove',       '#', 'admin', sysdate, '', null, '');
-
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘导出', 2428, '5',  '#',  'F', '0', 'datamanagerplate:community:export',       '#', 'admin', sysdate, '', null, '');
-
 select *
 from sys_menu where MENU_NAME like '%楼盘采集%';
 
+select *
+from SYS_DICT_DATA where DICT_TYPE = 'est_data_source' ;
+
+select *
+from SYS_DEPT;
+
+
+select lower(dt.table_name) as table_name,
+       dtc.comments         as table_comment,
+       uo.created           as create_time,
+       uo.last_ddl_time     as update_time
+from user_tables dt,
+     user_tab_comments dtc,
+     user_objects uo
+where dt.table_name = dtc.table_name
+  and dt.table_name = uo.object_name
+  and uo.object_type = 'TABLE'
+  AND dt.table_name NOT LIKE 'QRTZ_%'
+  AND dt.table_name NOT LIKE 'GEN_%'
+  AND dt.table_name NOT IN (select table_name
+                            from gen_table)
+  and lower(dt.table_name) in (
+    't_bev_result_record'
+    );
+
+
+
+create table T_FILE_PATH_REALESTATE
+(
+    ID               NUMBER(32) not null
+        primary key,
+    RE_TYPE          VARCHAR2(10),
+    YW_ID            VARCHAR2(100),
+    FILE_ORIGINNAME  VARCHAR2(600),
+    FILE_NAME        VARCHAR2(300),
+    FILE_FORMAT      VARCHAR2(100),
+    FILE_PATH        VARCHAR2(500),
+    FILE_SIZE        NUMBER(32),
+    FILE_DESC        VARCHAR2(600),
+    XH               NUMBER(3),
+    FILE_UPLOAD_DATE DATE,
+    FILE_UPLOAD_USER VARCHAR2(100)
+)
+/
+
+comment on table T_FILE_PATH_REALESTATE is '不动产单元相关文件表'
+/
+
+comment on column T_FILE_PATH_REALESTATE.ID is '主键'
+/
+
+comment on column T_FILE_PATH_REALESTATE.RE_TYPE is '不动产单元类型:H,ZRZ;ZD;COMMUNITY'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_ORIGINNAME is '文件原始名'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_NAME is '文件存储名'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_FORMAT is '文件类型(后缀)'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_PATH is '文件存储路径'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_SIZE is '文件大小'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_DESC is '文件描述'
+/
+
+comment on column T_FILE_PATH_REALESTATE.XH is '序号'
+/
+
+comment on column T_FILE_PATH_REALESTATE.FILE_UPLOAD_DATE is '文件上传人'
+/
+
+
+
+
+
 -- 菜单 SQL
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2482, '楼盘采集任务', '2005', '1', '/datamanagerplate/task', 'C', '0', 'datamanagerplate:task:view', '#', 'admin', sysdate, '', null, '楼盘采集任务菜单');
+values(2605, '不动产单元相关文件', '2005', '1', '/datamanagerplate/realestate', 'C', '0', 'datamanagerplate:realestate:view', '#', 'admin', sysdate, '', null, '不动产单元相关文件菜单');
 
 -- 按钮 SQL
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务查询', 2482, '1',  '#',  'F', '0', 'datamanagerplate:task:list',         '#', 'admin', sysdate, '', null, '');
+values(seq_sys_menu.nextval, '不动产单元相关文件查询', 2605, '1',  '#',  'F', '0', 'datamanagerplate:realestate:list',         '#', 'admin', sysdate, '', null, '');
 
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务新增', 2482, '2',  '#',  'F', '0', 'datamanagerplate:task:add',          '#', 'admin', sysdate, '', null, '');
+values(seq_sys_menu.nextval, '不动产单元相关文件新增', 2605, '2',  '#',  'F', '0', 'datamanagerplate:realestate:add',          '#', 'admin', sysdate, '', null, '');
 
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务修改', 2482, '3',  '#',  'F', '0', 'datamanagerplate:task:edit',         '#', 'admin', sysdate, '', null, '');
+values(seq_sys_menu.nextval, '不动产单元相关文件修改', 2605, '3',  '#',  'F', '0', 'datamanagerplate:realestate:edit',         '#', 'admin', sysdate, '', null, '');
 
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务删除', 2482, '4',  '#',  'F', '0', 'datamanagerplate:task:remove',       '#', 'admin', sysdate, '', null, '');
+values(seq_sys_menu.nextval, '不动产单元相关文件删除', 2605, '4',  '#',  'F', '0', 'datamanagerplate:realestate:remove',       '#', 'admin', sysdate, '', null, '');
 
 insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '楼盘采集任务导出', 2482, '5',  '#',  'F', '0', 'datamanagerplate:task:export',       '#', 'admin', sysdate, '', null, '');
+values(seq_sys_menu.nextval, '不动产单元相关文件导出', 2605, '5',  '#',  'F', '0', 'datamanagerplate:realestate:export',       '#', 'admin', sysdate, '', null, '');
 
-select *
-from SYS_DICT_DATA where DICT_TYPE = 'est_data_source' ;
+-- t_file_path_realestate主键序列
+create sequence seq_t_file_path_realestate
+increment by 1
+start with 10
+nomaxvalue
+nominvalue
+cache 20;
+
+
+
+-- auto-generated definition
+create table T_DATA_TQJG_ZRZ
+(
+    BDCDYID       NVARCHAR2(50) not null,
+    XMMC          NVARCHAR2(255),
+    BDCDYH        NVARCHAR2(50),
+    XMBH          NVARCHAR2(50),
+    ZDDM          NVARCHAR2(19),
+    ZDBDCDYID     NVARCHAR2(50),
+    ZRZH          NVARCHAR2(50),
+    ZL            NVARCHAR2(200),
+    JGRQ          DATE,
+    ZCS           NUMBER(38),
+    DSCS          NUMBER(38),
+    DXCS          NUMBER(38),
+    GHYT          NVARCHAR2(10),
+    FWJG          NVARCHAR2(10),
+    ZTS           NUMBER(38),
+    QXDM          NVARCHAR2(6),
+    QXMC          NVARCHAR2(200),
+    BDCDYH_NEW    VARCHAR2(50),
+    BDCDYH_OLD    VARCHAR2(50),
+    ZDBDCDYID_NEW VARCHAR2(50),
+    JZJG          NVARCHAR2(26),
+    TQZH          VARCHAR2(50),
+    FWYT1         VARCHAR2(100),
+    FWYT2         VARCHAR2(100),
+    FWYT3         VARCHAR2(100),
+    FWYT4         VARCHAR2(100),
+    FWYT5         VARCHAR2(100),
+    CLZT          VARCHAR2(2),
+    QSZT          VARCHAR2(2),
+    ID            VARCHAR2(32),
+    SFWQ          VARCHAR2(2),
+    DEL_FLAG      VARCHAR2(10),
+    UPDATE_FLAG   VARCHAR2(2)
+)
+/
+-- 菜单 SQL
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(2621, '自然幢用途', '2005', '1', '/datamanagerplate/zrzyt', 'C', '0', 'datamanagerplate:zrzyt:view', '#', 'admin', sysdate, '', null, '自然幢用途菜单');
+
+-- 按钮 SQL
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(seq_sys_menu.nextval, '自然幢用途查询', 2621, '1',  '#',  'F', '0', 'datamanagerplate:zrzyt:list',         '#', 'admin', sysdate, '', null, '');
+
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(seq_sys_menu.nextval, '自然幢用途新增', 2621, '2',  '#',  'F', '0', 'datamanagerplate:zrzyt:add',          '#', 'admin', sysdate, '', null, '');
+
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(seq_sys_menu.nextval, '自然幢用途修改', 2621, '3',  '#',  'F', '0', 'datamanagerplate:zrzyt:edit',         '#', 'admin', sysdate, '', null, '');
+
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(seq_sys_menu.nextval, '自然幢用途删除', 2621, '4',  '#',  'F', '0', 'datamanagerplate:zrzyt:remove',       '#', 'admin', sysdate, '', null, '');
+
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
+values(seq_sys_menu.nextval, '自然幢用途导出', 2621, '5',  '#',  'F', '0', 'datamanagerplate:zrzyt:export',       '#', 'admin', sysdate, '', null, '');
+
+
+
