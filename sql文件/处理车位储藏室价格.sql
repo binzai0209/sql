@@ -83,25 +83,35 @@ select *
 from T_PRICE_ZRZ
 where BZ = '0824新增价格';
 
+select BDCDYID,FWYT,count(0)
+from T_PRICE_ZRZ group by BDCDYID,FWYT having count(0) > 1;
+
+select *
+from T_PRICE_ZRZ where BDCDYID ='幢未落地-499161';
+
 insert into T_PRICE_ZRZ (id, bdcdyid, zdbdcdyid, community_id, price, fwyt, createtime, createuser, data_source, zl,
-                         qxdm, bz)
+                         qxdm, bz,SCJ)
 select sys_guid(),
        ZRZBDCDYID,
        ZDBDCDYID,
        COMMUNITY_ID,
-       PRICE,
+       round(PRICE/1.05,2) as price,
        FWYT,
        sysdate,
        'zhangbin',
        '4',
        ZRZ_ZL,
        QXDM,
-       '0824新增价格'
+       '0824新增价格',
+       PRICE scj
 from (select v.*, pz.price price_jz, pz.fwyt fwyt_jz, pz.data_source
       from v_community_gl_zrz_xq3_gxd v
                left join t_price_zrz pz on v.ZRZBDCDYID = pz.bdcdyid and v.fwyt = pz.fwyt
       where v.fwyt = '储藏室/阁楼')
 where price_jz is null;
+
+select *
+from T_PRICE_ZRZ where BZ = '0824新增价格';
 
 select *
 from T_PRICE_ZRZ

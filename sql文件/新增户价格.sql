@@ -7,9 +7,9 @@ select sys_guid(),
        ZDBDCDYID,
        QXDM,
        ZL,
-       FWYT4,
-       11500,
-       11500 * SCJZMJ,
+       FWYT3,
+       5500,
+       5500 * SCJZMJ,
        SCJZMJ,
        SZC,
        ZCS,
@@ -18,20 +18,20 @@ select sys_guid(),
        FWYT3,
        FWBM
 from T_BASE_H_XZ
-where zl = '»±ÒñÇøÂÌµØÏãé¿ÐÂÀï¹ã³¡10ºÅÂ¥104';
+where BDCDYH = '370105013007GB00011F00130002';
 
 select *
-from T_H_PRICE_JZ where zl = '»±ÒñÇøÂÌµØÏãé¿ÐÂÀï¹ã³¡33ºÅÂ¥111';
+from T_H_PRICE_JZ where zl = 'æ§è«åŒºç»¿åœ°é¦™æ¦­æ–°é‡Œå¹¿åœº33å·æ¥¼111';
 select SCJZMJ
-from T_BASE_H_XZ where zl = '»±ÒñÇøÂÌµØÏãé¿ÐÂÀï¹ã³¡33ºÅÂ¥111';
+from T_BASE_H_XZ where zl = 'æ§è«åŒºç»¿åœ°é¦™æ¦­æ–°é‡Œå¹¿åœº33å·æ¥¼111';
 
 update T_H_PRICE_JZ
 set PRICE_TOTAL = 11500* jzmj,price =11500
-where zl = '»±ÒñÇøÂÌµØÏãé¿ÐÂÀï¹ã³¡33ºÅÂ¥111';
+where zl = 'æ§è«åŒºç»¿åœ°é¦™æ¦­æ–°é‡Œå¹¿åœº33å·æ¥¼111';
 
 select *
 from T_DATA_WSXX where SMX is null ;
 
 select *
-from T_H_PRICE_JZ where ZL = '»±ÒñÇøÂÌµØÏãé¿ÐÂÀï¹ã³¡33ºÅÂ¥111';
+from T_H_PRICE_JZ where ZL = 'æ§è«åŒºç»¿åœ°é¦™æ¦­æ–°é‡Œå¹¿åœº33å·æ¥¼111';
 

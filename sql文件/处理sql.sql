@@ -32,3 +32,5 @@ from T_API_WSXX group by YWH;
 update T_DATA_WSXX a
 set SNJE = (select bb from TABLEITEM b where a.YWH = b.aa)
 where EXISTS(select 1 from TABLEITEM b where b.aa = a.YWH);
+
+
