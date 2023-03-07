@@ -72,7 +72,7 @@ from (select BDCDYID,
          left join T_DATA_WSXX b
                    on a.BDCDYID = b.BDCDYID and a.ZRZBDCDYID = b.ZRZBDCDYID and a.YWH = b.YWH and a.FYBH = b.FYBH and
                       a.FWBM = b.FWBM
-where b.BDCDYID is null ;
+where b.BDCDYID is null;
 
 insert into T_DATA_WSXX (id, bdcdyid, zrzbdcdyid, qxdm, ywh, fwbm, FYBH, zl, fwyt, fwyt3, scjzmj, jyzj, jydj,
                          price_total, price, ywlx, create_time)
@@ -163,7 +163,8 @@ select sys_guid(),
        price,
        ywlx,
        create_time
-from (select BDCDYID,
+from (where SM = '土地增值税')
+         select BDCDYID,
              ZRZBDCDYID,
              ZL,
              FWBM,
@@ -184,50 +185,25 @@ from (select BDCDYID,
              PRICE,
              YWLX,
              create_time
-      from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
-                   hb.BDCDYID,
-                   hb.ZRZBDCDYID,
-                   hb.zl,
-                   c.FWBM,
-                   c.FYBH,
-                   c.YWH,
-                   hb.QXDM,
-                   hb.fwyt3,
-                   hb.fwyt4                             fwyt,
-                   hb.scjzmj,
-                   c.JYJG                               jyzj,
-                   (c.JYJG / hb.scjzmj)                 jydj,
-                   JG.PRICE_TOTAL,
-                   JG.PRICE,
-                   c.YWLX
-            from JNPG.T_API_WSXX C
-                     left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
-                     left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
-            WHERE c.sm = '契税'
-              and c.fwbm is not null
-              and hb.SCJZMJ is not null
-              and SCJZMJ <> 0
-              and JYJG is not null
-              and JSJE is not null
-            group by hb.BDCDYID,
-                     hb.ZRZBDCDYID, hb.zl, c.fwbm, hb.fwyt3, hb.scjzmj, JG.PRICE_TOTAL, c.YWLX, c.YWH, hb.QXDM, c.FYBH,
-                     JG.PRICE, hb.fwyt4,
-                     c.JYJG,
-                     to_char(c.create_time, 'yyyy-MM-dd')
-            order by to_char(c.create_time, 'yyyy-MM-dd') desc) a
-               left join (select *
-                          from (select ywh, sm, SLHJMQK, row_number() over (partition by YWH order by YWH) r
-                                from T_API_WSXX
-                                where SM = '土地增值税')
-                          where r = 1) b on a.YWH = b.YWH
-      where 1 = 1
-        and YWLX like '%二手%'
-      order by create_time desc);
-
-select BDCDYID, count(0)
-from T_DATA_WSXX
-group by BDCDYID
-having count(0) > 1;
+from (select to_char(c.create_time, 'yyyy-MM-dd') create_time, hb.BDCDYID, hb.ZRZBDCDYID, hb.zl, c.FWBM, c.FYBH, c.YWH, hb.QXDM, hb.fwyt3, hb.fwyt4 fwyt, hb.scjzmj, c.JYJG jyzj, (c.JYJG / hb.scjzmj) jydj, JG.PRICE_TOTAL, JG.PRICE, c.YWLX
+    from JNPG.T_API_WSXX C
+    left join jnpg.t_base_h_xz hb ON HB.FWBM = c.FWBM
+    left join JNPG.T_H_PRICE_JZ JG ON JG.FWBM = C.FWBM
+    WHERE c.sm = '契税'
+    and c.fwbm is not null
+    and hb.SCJZMJ is not null
+    and SCJZMJ <> 0
+    and JYJG is not null
+    and JSJE is not null
+    group by hb.BDCDYID, hb.ZRZBDCDYID, hb.zl, c.fwbm, hb.fwyt3, hb.scjzmj, JG.PRICE_TOTAL, c.YWLX, c.YWH, hb.QXDM, c.FYBH, JG.PRICE, hb.fwyt4, c.JYJG, to_char(c.create_time, 'yyyy-MM-dd')
+    order by to_char(c.create_time, 'yyyy-MM-dd') desc) a
+    left join (select *
+    from (select ywh, sm, SLHJMQK, row_number() over (partition by YWH order by YWH) r
+    from T_API_WSXX
+    where r = 1) b on a.YWH = b.YWH
+    where 1 = 1
+    and YWLX like '%二手%'
+    order by create_time desc);
 
 truncate table TABLEITEM;
 -- 处理计税单价
@@ -375,9 +351,10 @@ where EXISTS(select 1
 -- 添加实纳金额
 truncate table TABLEITEM;
 
-insert into TABLEITEM (aa,bb)
-select YWH,sum(SNJE)
-from T_API_WSXX group by YWH;
+insert into TABLEITEM (aa, bb)
+select YWH, sum(SNJE)
+from T_API_WSXX
+group by YWH;
 
 -- 更新实纳金额
 update T_DATA_WSXX a
@@ -386,6 +363,3 @@ where EXISTS(select 1 from TABLEITEM b where b.aa = a.YWH);
 
 select *
 from T_DATA_WSXX;
-
-
-

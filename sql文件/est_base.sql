@@ -222,36 +222,36 @@ select *
 from T_YS_CHK_LIST;
 
 select *
-from T_YS_CHK_RULE where CHK_LIST_ID = 'd505c1d946134c41ac2c22dfe39949ef';
+from T_YS_CHK_RULE
+where CHK_LIST_ID = 'd505c1d946134c41ac2c22dfe39949ef';
 
-   select
-        id,
-               chk_list_id,
-               xh,
-               value_type,
-               regular_expression,
-               labeltype,
-               field_name,
-               field_declare,
-               is_not_null,
-               field_length,
-               digits_length,
-               table_name,
-               repetition_chk,
-               gl_rule,
-               gl_rule_ori,
-               gl_method,
-               gl_field,
-               enum_chk,
-               constant_value,
-               value_range,
-               gl_shp,
-               column_type,
-               java_type,
-               java_field,
-               field_sort
-    from
-        t_ys_chk_rule where CHK_LIST_ID = 'd505c1d946134c41ac2c22dfe39949ef';
+select id,
+       chk_list_id,
+       xh,
+       value_type,
+       regular_expression,
+       labeltype,
+       field_name,
+       field_declare,
+       is_not_null,
+       field_length,
+       digits_length,
+       table_name,
+       repetition_chk,
+       gl_rule,
+       gl_rule_ori,
+       gl_method,
+       gl_field,
+       enum_chk,
+       constant_value,
+       value_range,
+       gl_shp,
+       column_type,
+       java_type,
+       java_field,
+       field_sort
+from t_ys_chk_rule
+where CHK_LIST_ID = 'd505c1d946134c41ac2c22dfe39949ef';
 
 
 select *
@@ -264,11 +264,12 @@ select count(0)
 from T_SCAN_SCOPE;
 
 select count(0)
-from T_CHK_RECORD_INFO where CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef';
+from T_CHK_RECORD_INFO
+where CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef';
 
 delete
-from T_CHK_RECORD_INFO where
- CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef';
+from T_CHK_RECORD_INFO
+where CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef';
 
 select *
 from T_SCAN_SCOPE;
@@ -277,7 +278,8 @@ select *
 from T_SCAN_TASK;
 
 select *
-from T_CHK_RECORD_INFO where CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef' ;
+from T_CHK_RECORD_INFO
+where CHK_ID = 'd505c1d946134c41ac2c22dfe39949ef';
 
 select *
 from T_SCAN_SCOPE;
@@ -306,12 +308,431 @@ FROM DBA_TABLESPACES T,
 WHERE T.TABLESPACE_NAME = D.TABLESPACE_NAME
 ORDER BY TABLESPACE_NAME, FILE_NAME;
 
-select FIELD_NAME,count(0)
+select FIELD_NAME, count(0)
 from t_chk_record_info
-WHERE chk_id = 'd505c1d946134c41ac2c22dfe39949ef' group by FIELD_NAME;
+WHERE chk_id = 'd505c1d946134c41ac2c22dfe39949ef'
+group by FIELD_NAME;
 
 select *
 from T_SCAN_TASK;
 
 select *
 from t_chk_record_info;
+
+select *
+from T_YW_SURVEY_TASK
+where TASK_NAME like '%1214%';
+
+select *
+from T_YW_SURVEYDATA_H
+where BDCDYID = '37329701';
+
+select *
+from t_ys_chk_rule;
+
+
+select *
+from T_CHK_RECORD_INFO
+where BDCDYID = '51592564';
+
+-- e58f15ef67fc410896d41e14a70136c1
+select *
+from T_CHK_RECORD_INFO
+where CHK_ID = 'e58f15ef67fc410896d41e14a70136c1';
+
+select *
+from t_yw_check_rule;
+
+select *
+from T_YW_SURVEY_TASK
+where TASK_NAME like '%1214%';
+
+select *
+from T_YW_SURVEYDATA_H
+where BDCDYID = '51592564';
+
+SELECT *
+FROM (SELECT TMP_PAGE.*,
+             ROWNUM PAGEHELPER_ROW_ID
+      FROM (SELECT a.id,
+                   a.hbdcdyid,
+                   a.zrzbdcdyid,
+                   a.zdbdcdyid,
+                   a.community_id,
+                   a.task_name,
+                   a.object_type,
+                   a.zl,
+                   a.investigator_id,
+                   a.investigator_name,
+                   a.client,
+                   a.client_idnum,
+                   a.sfqlr,
+                   a.result,
+                   a.investigator_sign,
+                   a.client_sign,
+                   a.qlr_sign,
+                   a.create_user,
+                   a.create_time,
+                   a.check_id,
+                   a.task_desc,
+                   a.actflag,
+                   a.pub_time,
+                   a.del_flag,
+                   a.TASK_LEVEL,
+                   a.ACTINSTID,
+                   a.ACCEPT_TIME,
+                   b.field_total,
+                   a.PHONE,
+                   a.TASK_TYPE,
+                   a.DEP_ID,
+                   a.TASK_YT,
+                   a.smx,
+                   a.smy,
+                   a.HOMEOWNER
+            FROM t_yw_survey_task a
+                     LEFT JOIN
+                 (SELECT taskid,
+                         count(1) field_total
+                  FROM T_YW_SURVEY_FIELD
+                  GROUP BY taskid) b
+                 ON a.ID = b.TASKID
+            WHERE a.actflag = '200'
+            order by create_time desc) TMP_PAGE)
+WHERE PAGEHELPER_ROW_ID <= 10
+  AND PAGEHELPER_ROW_ID > 0;
+
+
+
+SELECT count(0)
+FROM t_yw_survey_task a
+         LEFT JOIN
+     (SELECT taskid,
+             count(1) field_total
+      FROM T_YW_SURVEY_FIELD
+      GROUP BY taskid) b
+     ON a.ID = b.TASKID
+WHERE a.actflag = '200';
+
+
+
+SELECT *
+FROM (SELECT TMP_PAGE.*,
+             ROWNUM PAGEHELPER_ROW_ID
+      FROM (SELECT a.id,
+                   a.hbdcdyid,
+                   a.zrzbdcdyid,
+                   a.zdbdcdyid,
+                   a.community_id,
+                   a.task_name,
+                   a.object_type,
+                   a.zl,
+                   a.investigator_id,
+                   a.investigator_name,
+                   a.client,
+                   a.client_idnum,
+                   a.sfqlr,
+                   a.result,
+                   a.investigator_sign,
+                   a.client_sign,
+                   a.qlr_sign,
+                   a.create_user,
+                   a.create_time,
+                   a.check_id,
+                   a.task_desc,
+                   a.actflag,
+                   a.pub_time,
+                   a.del_flag,
+                   a.TASK_LEVEL,
+                   a.ACTINSTID,
+                   a.ACCEPT_TIME,
+                   b.field_total,
+                   a.PHONE,
+                   a.TASK_TYPE,
+                   a.DEP_ID,
+                   a.TASK_YT,
+                   a.smx,
+                   a.smy,
+                   a.HOMEOWNER
+            FROM t_yw_survey_task a
+                     LEFT JOIN
+                 (SELECT taskid,
+                         count(1) field_total
+                  FROM T_YW_SURVEY_FIELD
+                  GROUP BY taskid) b
+                 ON a.ID = b.TASKID
+            WHERE a.actflag = '200'
+            order by create_time desc) TMP_PAGE)
+WHERE PAGEHELPER_ROW_ID <= 10
+  AND PAGEHELPER_ROW_ID > 0;
+
+
+select *
+from T_YW_SURVEY_TASK;
+
+select *
+from T_PRICE_ZRZ
+where ZZFSYT is not null;
+
+select *
+from T_PRICE_ZRZ
+where PRICE is null;
+
+select ZL
+from T_BASE_ZRZ_XZ
+where BDCDYID = 'aa32941d-4567-46a3-b977-64e791d7902a';
+
+select *
+from H_PRICE_20221207;
+
+-- h_price主键序列
+create sequence seq_h_price
+    increment by 1
+    start with 10
+    nomaxvalue
+    nominvalue
+    cache 20;
+
+-- zrz_price主键序列
+create sequence seq_zrz_price
+    increment by 1
+    start with 10
+    nomaxvalue
+    nominvalue
+    cache 20;
+
+-- e0027d4a0db94dec833c8648227fd6f4
+
+select *
+from T_YS_CHK_LIST;
+
+insert into T_YS_CHK_RULE (id, chk_list_id, xh, field_name, field_declare, is_not_null, field_length, digits_length,
+                           repetition_chk, gl_field, gl_method, gl_rule_ori, gl_rule, enum_chk, constant_value,
+                           value_range, gl_shp, column_type, java_type, java_field, labeltype, field_sort, table_name,
+                           value_type, regular_expression)
+select id,
+       'e0027d4a0db94dec833c8648227fd6f4',
+       xh,
+       field_name,
+       field_declare,
+       is_not_null,
+       field_length,
+       digits_length,
+       repetition_chk,
+       gl_field,
+       gl_method,
+       gl_rule_ori,
+       gl_rule,
+       enum_chk,
+       constant_value,
+       value_range,
+       gl_shp,
+       column_type,
+       java_type,
+       java_field,
+       labeltype,
+       field_sort,
+       table_name,
+       value_type,
+       regular_expression
+from T_YS_CHK_RULE
+where CHK_LIST_ID in ('1', '2', '3', '4');
+select distinct TABLE_NAME
+from T_YS_CHK_RULE
+where CHK_LIST_ID in ('1', '2', '3', '4');
+
+select *
+from T_YW_CHECK_RULE
+where CHECK_ID = '068a815ca9104f798865718d5329c276';
+
+select *
+from T_YW_SURVEY_TASK
+where HBDCDYId = '51592564';
+
+select *
+from T_YW_SURVEY_TASK
+where CHECK_ID = 'd17403f2647f4bb4b0f4d0043e4debc3';
+select *
+from T_YW_SURVEY_TEMPLATE;
+
+select *
+from T_YW_SURVEY_FIELD
+where OBJECT_TYPE in ('h', 'community', 'zrz', 'zd');
+
+truncate table T_YW_SURVEY_RULE;
+
+select *
+from T_YW_SURVEY_RULE
+where SURVEY_TEMPLATE_ID = 11;
+
+insert into T_YW_SURVEY_RULE (id, survey_template_id, field_name, field_desc, table_name)
+select sys_guid(), 11, FIELD_NAME, FIELD_NAME_DESC, OBJECT_TYPE
+from T_YW_SURVEY_FIELD_OPTION
+where OBJECT_TYPE in ('h', 'zrz', 'zd', 'community');
+
+
+insert into T_YW_SURVEY_RULE (id, survey_template_id, field_name, field_desc, table_name)
+select sys_guid(), 10, FIELD_NAME, FIELD_NAME_DESC, OBJECT_TYPE
+from T_YW_SURVEY_FIELD_OPTION
+where OBJECT_TYPE in ('h', 'zrz', 'zd', 'community');
+
+select *
+from T_YW_SURVEY_FIELD
+where OBJECT_TYPE = 'h';
+
+
+-- t_yw_survey_template主键序列
+create sequence seq_t_yw_survey_template
+    increment by 1
+    start with 10
+    nomaxvalue
+    nominvalue
+    cache 20;
+
+-- t_yw_survey_rule主键序列
+create sequence seq_t_yw_survey_rule
+    increment by 1
+    start with 10
+    nomaxvalue
+    nominvalue
+    cache 20;
+
+
+select id,
+       bdcdyid,
+       object_type,
+       type,
+       enumname,
+       fieldname,
+       fieldnamedesc,
+       chkrules,
+       chkrulesdesc,
+       check_id,
+       taskid,
+       create_time,
+       create_by,
+       update_time,
+       update_by,
+       field_sort,
+       DEFAULT_VALUE
+from t_yw_survey_field a
+         left join
+     (select DICT_SORT,
+             DICT_VALUE,
+             DICT_LABEL
+      from EST_FRAMEWORK.SYS_DICT_DATA
+      where DICT_TYPE = 'est_obj_lower') b
+     on a.object_type = b.dict_value
+order by b.dict_sort,
+         a.field_sort;
+
+select *
+from t_yw_data_review;
+
+select *
+from T_YW_SURVEY_TASK
+order by CREATE_TIME desc;
+
+select *
+from DICT;
+
+select *
+from T_YW_SURVEY_TASK;
+
+select *
+from T_BASE_SQ;
+
+select *
+from t_yw_check_rule;
+
+select *
+from t_ys_chk_rule;
+
+select *
+from T_YW_SURVEY_TASK
+where TASK_NAME = '145测试';
+select *
+from (select a.*, row_number() over (partition by TASKID, ACTNAME order by STARTTIME desc ) r
+      from T_WORKFLOW_ACTINST a)
+where r = 1
+  and TASKID = '8f4eee50e96043ce932ca653f0cbfc86';
+
+select *
+from T_YW_SURVEY_TASK
+where id = '8f4eee50e96043ce932ca653f0cbfc86';
+
+select id
+from T_YW_SURVEY_TASK
+where TASK_NAME = '勘察鲁商国奥城';
+
+select *
+from t_yw_survey_field
+where TASKID = '3d0372ed57b645a6a4ba39fd0582df27';
+
+select *
+from T_YW_SURVEY_FILE;
+
+select id, count(0)
+from T_YS_CHK_RULE
+group by ID
+having count(0) > 1;
+
+select *
+from T_YS_CHK_RULE
+where ID = '6676f031a83c4941a7a0453d98470933';
+
+select *
+from t_base_index;
+
+truncate table T_BASE_INDEX;
+
+select *
+from T_SCAN_SCOPE;
+
+select *
+from t_yw_survey_rule
+where TABLE_NAME in (null, 'h', 'zrz');
+
+select *
+from t_yw_survey_task;
+
+
+select a.id,
+       a.hbdcdyid,
+       a.zrzbdcdyid,
+       a.zdbdcdyid,
+       a.community_id,
+       a.task_name,
+       a.object_type,
+       a.zl,
+       a.investigator_id,
+       a.investigator_name,
+       a.client,
+       a.client_idnum,
+       a.sfqlr,
+       a.result,
+       a.investigator_sign,
+       a.client_sign,
+       a.qlr_sign,
+       a.create_user,
+       a.create_time,
+       a.check_id,
+       a.task_desc,
+       a.actflag,
+       a.pub_time,
+       a.del_flag,
+       a.TASK_LEVEL,
+       a.ACTINSTID,
+       a.ACCEPT_TIME,
+       b.field_total,
+       a.PHONE,
+       a.TASK_TYPE,
+       a.DEP_ID,
+       a.TASK_YT,
+       a.smx,
+       a.smy,
+       a.HOMEOWNER
+from t_yw_survey_task a
+         left join (select taskid, count(1) field_total from T_YW_SURVEY_FIELD group by taskid) b on a.ID = b.TASKID
+WHERE a.actflag in ('410', '420')
+  and TASK_TYPE = '1'
+order by a.create_time desc

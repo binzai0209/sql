@@ -5,10 +5,12 @@ select *
 from SYS_DEPT;
 
 select *
-from sys_menu where MENU_NAME like '%楼盘采集%';
+from sys_menu
+where MENU_NAME like '%楼盘采集%';
 
 select *
-from SYS_DICT_DATA where DICT_TYPE = 'est_data_source' ;
+from SYS_DICT_DATA
+where DICT_TYPE = 'est_data_source';
 
 select *
 from SYS_DEPT;
@@ -33,149 +35,123 @@ where dt.table_name = dtc.table_name
     );
 
 
+-- 菜单 SQL
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (2642, '户价格', '2005', '1', '/datamanagerplate/h_price', 'C', '0', 'datamanagerplate:h_price:view', '#',
+        'admin', sysdate, '', null, '户价格菜单');
 
-create table T_FILE_PATH_REALESTATE
-(
-    ID               NUMBER(32) not null
-        primary key,
-    RE_TYPE          VARCHAR2(10),
-    YW_ID            VARCHAR2(100),
-    FILE_ORIGINNAME  VARCHAR2(600),
-    FILE_NAME        VARCHAR2(300),
-    FILE_FORMAT      VARCHAR2(100),
-    FILE_PATH        VARCHAR2(500),
-    FILE_SIZE        NUMBER(32),
-    FILE_DESC        VARCHAR2(600),
-    XH               NUMBER(3),
-    FILE_UPLOAD_DATE DATE,
-    FILE_UPLOAD_USER VARCHAR2(100)
-)
-/
+-- 按钮 SQL
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '户价格查询', 2642, '1', '#', 'F', '0', 'datamanagerplate:h_price:list', '#', 'admin',
+        sysdate, '', null, '');
 
-comment on table T_FILE_PATH_REALESTATE is '不动产单元相关文件表'
-/
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '户价格新增', 2642, '2', '#', 'F', '0', 'datamanagerplate:h_price:add', '#', 'admin',
+        sysdate, '', null, '');
 
-comment on column T_FILE_PATH_REALESTATE.ID is '主键'
-/
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '户价格修改', 2642, '3', '#', 'F', '0', 'datamanagerplate:h_price:edit', '#', 'admin',
+        sysdate, '', null, '');
 
-comment on column T_FILE_PATH_REALESTATE.RE_TYPE is '不动产单元类型:H,ZRZ;ZD;COMMUNITY'
-/
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '户价格删除', 2642, '4', '#', 'F', '0', 'datamanagerplate:h_price:remove', '#', 'admin',
+        sysdate, '', null, '');
 
-comment on column T_FILE_PATH_REALESTATE.FILE_ORIGINNAME is '文件原始名'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_NAME is '文件存储名'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_FORMAT is '文件类型(后缀)'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_PATH is '文件存储路径'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_SIZE is '文件大小'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_DESC is '文件描述'
-/
-
-comment on column T_FILE_PATH_REALESTATE.XH is '序号'
-/
-
-comment on column T_FILE_PATH_REALESTATE.FILE_UPLOAD_DATE is '文件上传人'
-/
-
-
-
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '户价格导出', 2642, '5', '#', 'F', '0', 'datamanagerplate:h_price:export', '#', 'admin',
+        sysdate, '', null, '');
 
 
 -- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2605, '不动产单元相关文件', '2005', '1', '/datamanagerplate/realestate', 'C', '0', 'datamanagerplate:realestate:view', '#', 'admin', sysdate, '', null, '不动产单元相关文件菜单');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (2643, '幢价格', '2005', '1', '/datamanagerplate/zrz_price', 'C', '0', 'datamanagerplate:zrz_price:view', '#',
+        'admin', sysdate, '', null, '幢价格菜单');
 
 -- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '不动产单元相关文件查询', 2605, '1',  '#',  'F', '0', 'datamanagerplate:realestate:list',         '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '幢价格查询', 2643, '1', '#', 'F', '0', 'datamanagerplate:zrz_price:list', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '不动产单元相关文件新增', 2605, '2',  '#',  'F', '0', 'datamanagerplate:realestate:add',          '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '幢价格新增', 2643, '2', '#', 'F', '0', 'datamanagerplate:zrz_price:add', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '不动产单元相关文件修改', 2605, '3',  '#',  'F', '0', 'datamanagerplate:realestate:edit',         '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '幢价格修改', 2643, '3', '#', 'F', '0', 'datamanagerplate:zrz_price:edit', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '不动产单元相关文件删除', 2605, '4',  '#',  'F', '0', 'datamanagerplate:realestate:remove',       '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '幢价格删除', 2643, '4', '#', 'F', '0', 'datamanagerplate:zrz_price:remove', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '不动产单元相关文件导出', 2605, '5',  '#',  'F', '0', 'datamanagerplate:realestate:export',       '#', 'admin', sysdate, '', null, '');
-
--- t_file_path_realestate主键序列
-create sequence seq_t_file_path_realestate
-increment by 1
-start with 10
-nomaxvalue
-nominvalue
-cache 20;
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '幢价格导出', 2643, '5', '#', 'F', '0', 'datamanagerplate:zrz_price:export', '#', 'admin',
+        sysdate, '', null, '');
 
 
-
--- auto-generated definition
-create table T_DATA_TQJG_ZRZ
-(
-    BDCDYID       NVARCHAR2(50) not null,
-    XMMC          NVARCHAR2(255),
-    BDCDYH        NVARCHAR2(50),
-    XMBH          NVARCHAR2(50),
-    ZDDM          NVARCHAR2(19),
-    ZDBDCDYID     NVARCHAR2(50),
-    ZRZH          NVARCHAR2(50),
-    ZL            NVARCHAR2(200),
-    JGRQ          DATE,
-    ZCS           NUMBER(38),
-    DSCS          NUMBER(38),
-    DXCS          NUMBER(38),
-    GHYT          NVARCHAR2(10),
-    FWJG          NVARCHAR2(10),
-    ZTS           NUMBER(38),
-    QXDM          NVARCHAR2(6),
-    QXMC          NVARCHAR2(200),
-    BDCDYH_NEW    VARCHAR2(50),
-    BDCDYH_OLD    VARCHAR2(50),
-    ZDBDCDYID_NEW VARCHAR2(50),
-    JZJG          NVARCHAR2(26),
-    TQZH          VARCHAR2(50),
-    FWYT1         VARCHAR2(100),
-    FWYT2         VARCHAR2(100),
-    FWYT3         VARCHAR2(100),
-    FWYT4         VARCHAR2(100),
-    FWYT5         VARCHAR2(100),
-    CLZT          VARCHAR2(2),
-    QSZT          VARCHAR2(2),
-    ID            VARCHAR2(32),
-    SFWQ          VARCHAR2(2),
-    DEL_FLAG      VARCHAR2(10),
-    UPDATE_FLAG   VARCHAR2(2)
-)
-/
 -- 菜单 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(2621, '自然幢用途', '2005', '1', '/datamanagerplate/zrzyt', 'C', '0', 'datamanagerplate:zrzyt:view', '#', 'admin', sysdate, '', null, '自然幢用途菜单');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (2666, '勘查字段模板', '2200', '1', '/survey/template', 'C', '0', 'survey:template:view', '#', 'admin', sysdate,
+        '', null, '勘查字段模板菜单');
 
 -- 按钮 SQL
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '自然幢用途查询', 2621, '1',  '#',  'F', '0', 'datamanagerplate:zrzyt:list',         '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '勘查字段模板查询', 2666, '1', '#', 'F', '0', 'survey:template:list', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '自然幢用途新增', 2621, '2',  '#',  'F', '0', 'datamanagerplate:zrzyt:add',          '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '勘查字段模板新增', 2666, '2', '#', 'F', '0', 'survey:template:add', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '自然幢用途修改', 2621, '3',  '#',  'F', '0', 'datamanagerplate:zrzyt:edit',         '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '勘查字段模板修改', 2666, '3', '#', 'F', '0', 'survey:template:edit', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '自然幢用途删除', 2621, '4',  '#',  'F', '0', 'datamanagerplate:zrzyt:remove',       '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '勘查字段模板删除', 2666, '4', '#', 'F', '0', 'survey:template:remove', '#', 'admin',
+        sysdate, '', null, '');
 
-insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values(seq_sys_menu.nextval, '自然幢用途导出', 2621, '5',  '#',  'F', '0', 'datamanagerplate:zrzyt:export',       '#', 'admin', sysdate, '', null, '');
+insert into sys_menu (menu_id, menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by,
+                      create_time, update_by, update_time, remark)
+values (seq_sys_menu.nextval, '勘查字段模板导出', 2666, '5', '#', 'F', '0', 'survey:template:export', '#', 'admin',
+        sysdate, '', null, '');
 
 
+select *
+from SYS_DICT_TYPE
+where DICT_ID = '100';
+
+select dict_code,
+       dict_sort,
+       dict_label,
+       dict_value,
+       dict_type,
+       css_class,
+       list_class,
+       is_default,
+       status,
+       create_by,
+       create_time,
+       update_by,
+       update_time,
+       remark
+from SYS_DICT_DATA
+where DICT_TYPE = 'estimate_qxmc';
 
