@@ -8,8 +8,8 @@ select sys_guid(),
        QXDM,
        ZL,
        FWYT3,
-       5500,
-       5500 * SCJZMJ,
+       round((153000 /1.05)/SCJZMJ,2),
+       153000 /1.05,
        SCJZMJ,
        SZC,
        ZCS,
@@ -18,7 +18,7 @@ select sys_guid(),
        FWYT3,
        FWBM
 from T_BASE_H_XZ
-where BDCDYH = '370105013007GB00011F00130002';
+where BDCDYH = '370126001019GB00004F00040009';
 
 select *
 from T_H_PRICE_JZ where zl = '槐荫区绿地香榭新里广场33号楼111';

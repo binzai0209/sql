@@ -1,10 +1,10 @@
 -- 户备份
-create table T_H_PRICE_JZ_1025 parallel 8 as
+create table T_H_PRICE_JZ_1214 parallel 8 as
 select *
 from T_H_PRICE_JZ nologging;
 
 -- 自然幢备份
-create table T_PRICE_ZRZ_0909 parallel 8 as
+create table T_PRICE_ZRZ_1214 parallel 8 as
 select *
 from T_PRICE_ZRZ nologging;
 
@@ -91,6 +91,12 @@ select *
 from T_H_PRICE_JZ
 where PRICE is not null
   and PRICE <> OLD_PRICE;
+
+select count(0)
+from T_H_PRICE_JZ_1214 group by BDCDYID having count(0) >1;
+
+select count(0)
+from T_H_PRICE_JZ_1214 where FWYT = '住宅' and PRICE is not null ;
 
 
 

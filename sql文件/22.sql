@@ -664,3 +664,81 @@ from (select to_char(c.create_time, 'yyyy-MM-dd') create_time,
 where 1 = 1
   and (YWLX like '%一手%' or YWLX like '%商品%')
 order by create_time desc
+
+
+-- 查看被锁住的表
+SELECT object_name, machine, s.sid, s.serial#
+FROM gv$locked_object l,
+     dba_objects o,
+     gv$session s
+WHERE l.object_id　 = o.object_id
+  AND l.session_id = s.sid;
+
+ALTER system kill session '289, 41285';
+
+select count(0)
+from T_DATA_WSXX;
+
+select distinct SFLD
+from T_BASE_SCHOOLDISTRICT;
+
+
+SELECT t.id,
+       t.NAME,
+       t.first_pinyin,
+       t.contact_name,
+       t.mobile_phone,
+       t.photo,
+       t.sales_id,
+       t.customer_type,
+       t.store_id,
+       t.accept_time,
+       t.grade,
+       t.home_address,
+       t.create_time,
+       t.update_time,
+       t.remark,
+       t.create_by,
+       t.update_by,
+       t.del_flag,
+       t.birthday,
+       t.address,
+       t2.final_received_fee,
+       t2.received_fee,
+       t2.message,
+       GROUP_CONCAT(t1.vin SEPARATOR ',')           vin,
+       GROUP_CONCAT(t1.plate SEPARATOR ',')         plate,
+       GROUP_CONCAT(t1.insurance_due SEPARATOR ',') insurance_due
+FROM t_customer t
+         LEFT JOIN t_customer_car t1 ON t.id = t1.customer_id
+    AND t1.del_flag = 0
+         LEFT JOIN (SELECT tr.customer_id,
+                           cb.final_received_fee,
+                           cb.received_fee,
+                           cb.message
+                    FROM t_coupon_batch cb
+                             LEFT JOIN t_coupon_record tr ON tr.batch_id = cb.id
+                    WHERE cb.id IN (SELECT max(tcb.id)
+                                    FROM t_coupon_record tcr
+                                             LEFT JOIN t_coupon_batch tcb ON tcr.batch_id = tcb.id
+                                        AND tcb.del_flag = 0
+                                        AND tcb.message IS NOT NULL
+                                    GROUP BY tcr.customer_id)
+                    GROUP BY tr.customer_id) t2 ON t2.customer_id = t.id
+WHERE 1 = 1
+  AND t.del_flag = 0
+  AND t.customer_type = 4
+GROUP BY t.id
+ORDER BY t.create_time DESC LIMIT 100;
+
+select distinct replace(replace(WQJG, '"', ''), ',', '')
+from T_DATA_WQJG_230306_test;
+
+select replace(replace(decode(wqjg, '', '0.00', null, '0.00', WQJG), '"', ''), ',', ''),
+       to_date(WQRQ, 'yyyy-mm-dd HH24:MI:SS'),
+       to_date(BARQ, 'yyyy-mm-dd HH24:MI:SS')
+from T_DATA_WQJG_230306
+where  WQRQ is not null and BARQ is not null ;
+
+select *
+from wqjg1 where wqjg  = '';

@@ -151,5 +151,28 @@ where b."communityid" is not null
 
 
 
+select ID, XZQ
+from T_BASE_COMMUNITY
+where COMMUNITY like '%财政局家属楼%';
 
+-- 450017769807712961
+select *
+from ZRZ_PRICE_20221207
+where BDCDYID in (select ZRZBDCDYID
+                  from V_COMMUNITY_GL_ZRZ
+                  where COMMUNITY_ID = '450017769807712961')
+  and FWYT = '住宅';
 
+select *
+from T_DATA_XQ_ZZ_GXD where BZ = '23年与18年计税价差值大于1000-1.17';
+
+-- 莱芜
+select *
+from ZRZ_PRICE_20221207
+where BDCDYID in (select ZRZBDCDYID
+                  from V_COMMUNITY_GL_ZRZ
+                  where COMMUNITY_ID = '450018246549082640')
+  and FWYT = '住宅';
+
+select FWYT4
+from T_BASE_H_XZ where ZRZBDCDYID = 'LWSXCQ_Z34458';
